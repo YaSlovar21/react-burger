@@ -14,21 +14,21 @@ import styles from './AppHeader.module.css';
 function AppHeader() {
   return (
     <header className={styles.header}>
-      <nav>
+      <nav className={styles.nav}>
         <ul className={styles.navlist}>
-          <li>
+          <li className={`pl-5 pr-5 pb-4 pt-4 ${styles.navlist__item}`}>
             <BurgerIcon type="primary" />
-            <span>Конструктор</span>
+            <span className='ml-2 text'>Конструктор</span>
           </li>
-          <li>
-            <ListIcon type="primary" />
-            <span>Лента заказов</span>
+          <li className={`pl-5 pr-5 pb-4 pt-4 text text_type_main-default text_color_inactive ${styles.navlist__item}`}>
+            <ListIcon type="secondary" />
+            <span className='ml-2'>Лента заказов</span>
           </li>
         </ul>
         <Logo />
-        <a className={styles.acc} href="#">
+        <a className={`pl-5 pr-5 pb-4 pt-4 ${styles.navlist__item}`} href="#">
           <ProfileIcon type="primary" />
-          <span>Личный кабинет</span>
+          <span className='ml-2 text text_type_main-default text_color_inactive'>Личный кабинет</span>
         </a>
       </nav>
     </header>

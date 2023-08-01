@@ -1,0 +1,31 @@
+.constructor {
+    flex-basis: 600px;
+    max-height: 912px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    
+}
+
+.zakaz {
+    height: 464px;
+    max-height: 43vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.zakaz::-webkit-scrollbar {
+    width: 8px;
+    background: var(--interface-input, #2F2F37);
+}
+
+.zakaz::-webkit-scrollbar-thumb {
+    border: 3px solid var(--text-dark-grey-secondary-text, #8585AD);
+    background: var(--text-dark-grey-secondary-text, #8585AD);
+    width: 8px;
+}
+
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
