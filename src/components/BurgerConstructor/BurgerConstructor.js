@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 
 import {
   ConstructorElement,
@@ -9,77 +10,52 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
-
+import { burgerPropTypes } from '../../utils/prop-types';
 import styles from './BurgerConstructor.module.css';
 
 function BurgerConstructor({data}) {
+
+    const { bun, ingredients } = useMemo(() => {
+        return {
+          bun: data.find(item => item.type === 'bun'),
+          ingredients: data.filter(item => item.type !== 'bun'),
+        };
+      }, [data]);
+
     return (
-        <form className={`mt-25 pl-3 ${styles.constructor}`}>
+        <div className={`mt-25 pl-3 ${styles.constructor}`}>
             <ConstructorElement
                 type="top"
                 isLocked={true}
-                text="Краторная булка N-200i (верх)"
-                price={200}
-                thumbnail={data[0].image}
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image}
                 extraClass="ml-8"
             />
-            <ul className={styles.zakaz} style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: 0, listStyleType: 'none' }}>
-                <li>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        text={data[1].name}
-                        price={data[1].price}
-                        thumbnail={data[1].image}
-                        extraClass="ml-2 mr-2"
-                    />
-                </li>
-                <li>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        text={data[2].name}
-                        price={data[2].price}
-                        thumbnail={data[2].image}
-                        extraClass="ml-2 mr-2"
-                    />
-                </li>
-                <li>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        text={data[3].name}
-                        price={data[3].price}
-                        thumbnail={data[3].image}
-                        extraClass="ml-2 mr-2"
-                    />
-                </li>
-                <li>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        text={data[4].name}
-                        price={data[4].price}
-                        thumbnail={data[4].image}
-                        extraClass="ml-2 mr-2"
-                    />
-                </li>
-                <li>
-                    <DragIcon type="primary" extraClass="mr-2" />
-                    <ConstructorElement
-                        text="Краторная булка N-200i (верх)"
-                        price={50}
-                        thumbnail={data[0].image}
-                        extraClass="ml-2 mr-2"
-                    />
-                </li>
+            <ul className={styles.zakaz}>
+                {
+                    ingredients.map(({_id, name, price, image}) => (
+                        <li key={_id}>
+                            <DragIcon type="primary" />
+                            <ConstructorElement
+                                text={name}
+                                price={price}
+                                thumbnail={image}
+                                extraClass="ml-2 mr-2"
+                            />
+                        </li>
+                    )) 
+                }
             </ul>
             <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text="Краторная булка N-200i (низ)"
-                price={200}
-                thumbnail={data[0].image}
+                text={bun.name}
+                price={bun.price}
+                thumbnail={bun.image}
                 extraClass="ml-8"
             />
-               
-            
+ 
             <div className={`pt-10 ${styles.total}`}>
                 <div className={`mr-10 ${styles.price}`}>
                     <span className='text text_type_digits-medium mr-2'>610</span>
@@ -89,20 +65,13 @@ function BurgerConstructor({data}) {
                     Оформить заказ
                 </Button>
             </div>
-        </form>
+        </div>
     )
 }
 
 
-const burgerPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-});
-
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(burgerPropTypes).isRequired
+    data: PropTypes.arrayOf(burgerPropTypes.isRequired).isRequired
 };
 
 export default BurgerConstructor;

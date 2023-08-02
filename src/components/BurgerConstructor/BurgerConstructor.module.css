@@ -11,6 +11,12 @@
     max-height: 43vh;
     overflow-x: hidden;
     overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0;
+    list-style-type: none; 
 }
 
 .zakaz::-webkit-scrollbar {

@@ -9,6 +9,10 @@
 }
 
 
+.tabs {
+    display: flex;
+}
+
 .ingredients__list {
     padding: 0;
     margin: 0;
@@ -37,21 +41,3 @@
     width: 8px;
 }
 
-.ingredient {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: stretch;
-    
-}
-
-.ingredient__count {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.ingredient__name {
-    text-align: center;
-}
