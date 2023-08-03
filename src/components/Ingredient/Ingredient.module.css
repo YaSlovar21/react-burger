@@ -1,0 +1,23 @@
+.ingredient {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+    
+}
+
+.ingredient__count {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.ingredient__price {
+    display: flex;
+    align-items: center;
+}
+
+.ingredient__name {
+    text-align: center;
+}
