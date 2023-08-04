@@ -33,7 +33,7 @@ function BurgerIngredients({data}) {
     }
 
     const [modalIngrIsOpen, setModalIngrIsOpen] = React.useState(false);
-    const [selectedIngr, setSelectedIngr] = React.useState({});
+    const [selectedIngr, setSelectedIngr] = React.useState(null);
 
     return (
         <div className={styles.ingredients}>
@@ -72,9 +72,10 @@ function BurgerIngredients({data}) {
                     ))}
                 </ul>
             </div>
-            <Modal isOpen={modalIngrIsOpen} onEventCloseInModal={handleModalClose}>
+            {modalIngrIsOpen && selectedIngr && (<Modal onEventCloseInModal={handleModalClose}>
                 <IngredientDetails el={selectedIngr}/> 
             </Modal>
+            )}
     </div>
     )
 }

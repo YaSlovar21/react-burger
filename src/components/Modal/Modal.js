@@ -17,21 +17,21 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
 const modalRoot = document.getElementById('react-modals');
 
-function Modal({children, isOpen, onEventCloseInModal}) {
+function Modal({children, onEventCloseInModal}) {
 
     React.useEffect(() =>{
         const closeByEsc = (evt) => {
-            if (evt.key === 'Escape') {
+            if (evt.key === ESC_CODE) {
                 onEventCloseInModal();
             }
         }
         document.addEventListener('keydown', closeByEsc);
         return () => 
             document.removeEventListener('keydown', closeByEsc);
-    }, [isOpen]);
+    }, []);
 
     return ReactDOM.createPortal(
-        <div className={`${styles.modalwrapper} ${isOpen && styles.modalwrapper_open}`}>
+        <div className={`${styles.modalwrapper}`}>
             <ModalOverlay onOverlayClick={onEventCloseInModal}  />
             <div className={styles.modal}>
                 <button className={styles.closebutton} onClick={onEventCloseInModal}>
@@ -46,7 +46,6 @@ function Modal({children, isOpen, onEventCloseInModal}) {
 
 Modal.propTypes = {
     children: PropTypes.element.isRequired,
-    isOpen: PropTypes.bool.isRequired,
     onEventCloseInModal:  PropTypes.func.isRequired,
 }
 

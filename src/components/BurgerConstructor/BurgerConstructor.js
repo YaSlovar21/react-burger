@@ -77,9 +77,10 @@ function BurgerConstructor({data}) {
                 <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
                     Оформить заказ
                 </Button>
-                <Modal isOpen={modalOrderIsOpen} onEventCloseInModal={handleModalClose}>
+                {modalOrderIsOpen && (<Modal onEventCloseInModal={handleModalClose}>
                     <OrderDetails />
                 </Modal>
+                )}
             </div>
         </div>
     )

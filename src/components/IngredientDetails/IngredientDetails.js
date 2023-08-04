@@ -35,8 +35,7 @@ function IngredientDetails({el}) {
 }
 
 IngredientDetails.propTypes = {
-    el: PropTypes.object,
+    el: burgerPropTypes.isRequired,
 };
-/* при передече в ПропТайпс типов для ингредиента  вылетает предупреждение, пропс el асинхронный (стейт из родительского компонента), при неоткрытом модальном окне значение {} */
 
 export default IngredientDetails;
