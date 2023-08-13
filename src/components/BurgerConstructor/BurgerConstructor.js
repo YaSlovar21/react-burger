@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 
@@ -14,29 +14,47 @@ import { burgerPropTypes } from '../../utils/prop-types';
 import styles from './BurgerConstructor.module.css';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import { IngrContext } from '../../services/ingrContext';
+import { makeOrderRequest } from '../../utils/burger-api';
 
-function BurgerConstructor({data}) {
+function BurgerConstructor() {
 
     const [modalOrderIsOpen, setModalOrderIsOpen] = React.useState(false);
+    const [orderNubmer, setOrderNumber] = React.useState(null);
+
+    const {ingrState, setIngrState} = useContext(IngrContext);
+
 
     const { bun, ingredients } = useMemo(() => {
         return {
-          bun: data.find(item => item.type === 'bun'),
-          ingredients: data.filter(item => item.type !== 'bun'),
+          bun: ingrState.find(item => item.type === 'bun'),
+          ingredients: ingrState.filter(item => item.type !== 'bun' && Math.round(Math.random()) === 1),
         };
-      }, [data]);
+      }, [ingrState]);
 
     function handleOrderButtonClick() {
-        setModalOrderIsOpen(true);
+        makeOrderRequest(ingredients.concat(bun, bun))
+            .then(order => {
+                console.log(order);
+                if(order.success) {
+                    setOrderNumber(order.order.number);
+                    setModalOrderIsOpen(true);
+                }
+                else{
+                    Promise.reject(`Не получилось оформить заказ. Ошибка ${order.status}`)
+                }
+            })
+            .catch(e => console.log(e));
     }
 
     function handleModalClose() {
         setModalOrderIsOpen(false);
     }
     
+    const totalSum = bun &&  bun.price * 2 + ingredients.reduce((acc, item)=> acc+= item.price, 0);
 
     return (
-        data.length && <div className={`mt-25 pl-3 ${styles.constructor}`}>
+        ingrState.length && <div className={`mt-25 pl-3 ${styles.constructor}`}>
            <ConstructorElement
                 type="top"
                 isLocked={true}
@@ -71,14 +89,14 @@ function BurgerConstructor({data}) {
  
             <div className={`pt-10 ${styles.total}`}>
                 <div className={`mr-10 ${styles.price}`}>
-                    <span className='text text_type_digits-medium mr-2'>610</span>
+                    <span className='text text_type_digits-medium mr-2'>{totalSum}</span>
                     <CurrencyIcon />
                 </div>
                 <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
                     Оформить заказ
                 </Button>
                 {modalOrderIsOpen && (<Modal onEventCloseInModal={handleModalClose}>
-                    <OrderDetails />
+                    <OrderDetails orderNubmer={orderNubmer} />
                 </Modal>
                 )}
             </div>
@@ -87,8 +105,8 @@ function BurgerConstructor({data}) {
 }
 
 
-BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(burgerPropTypes.isRequired).isRequired
-};
+//BurgerConstructor.propTypes = {
+    //data: PropTypes.arrayOf(burgerPropTypes.isRequired).isRequired
+//};
 
 export default BurgerConstructor;

@@ -5,6 +5,7 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import { getInitialIngredients } from '../../utils/burger-api';
+import { IngrContext } from '../../services/ingrContext';
 
 
 
@@ -29,7 +30,9 @@ function App() {
       <main className={styles.content}>
         <div className={styles.page}>
           <BurgerIngredients data={ingrState} />
-          <BurgerConstructor data={ingrState} />
+          <IngrContext.Provider value={{ingrState, setIngrState}}>
+            <BurgerConstructor />
+          </IngrContext.Provider>
         </div>
       </main>
     </div>

@@ -7,7 +7,7 @@
 }
 
 .zakaz {
-    height: 464px;
+    /*height: 464px;*/
     max-height: 43vh;
     overflow-x: hidden;
     overflow-y: auto;
