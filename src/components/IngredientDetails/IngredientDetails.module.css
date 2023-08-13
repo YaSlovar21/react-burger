@@ -1,0 +1,34 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.detailstitle {
+    width: 100%;
+}
+
+
+.image{
+    width: 520px;
+    height: 240px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.charslist {
+    padding: 0;
+
+    list-style-type: none;
+    display: flex;
+}
+
+.charslist__item {
+    min-width: 112px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

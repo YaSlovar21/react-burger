@@ -12,8 +12,12 @@ import {
 
 import { burgerPropTypes } from '../../utils/prop-types';
 import styles from './BurgerConstructor.module.css';
+import Modal from '../Modal/Modal';
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 function BurgerConstructor({data}) {
+
+    const [modalOrderIsOpen, setModalOrderIsOpen] = React.useState(false);
 
     const { bun, ingredients } = useMemo(() => {
         return {
@@ -22,9 +26,18 @@ function BurgerConstructor({data}) {
         };
       }, [data]);
 
+    function handleOrderButtonClick() {
+        setModalOrderIsOpen(true);
+    }
+
+    function handleModalClose() {
+        setModalOrderIsOpen(false);
+    }
+    
+
     return (
-        <div className={`mt-25 pl-3 ${styles.constructor}`}>
-            <ConstructorElement
+        data.length && <div className={`mt-25 pl-3 ${styles.constructor}`}>
+           <ConstructorElement
                 type="top"
                 isLocked={true}
                 text={bun.name}
@@ -61,9 +74,13 @@ function BurgerConstructor({data}) {
                     <span className='text text_type_digits-medium mr-2'>610</span>
                     <CurrencyIcon />
                 </div>
-                <Button htmlType="submit" type="primary" size="large">
+                <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
                     Оформить заказ
                 </Button>
+                {modalOrderIsOpen && (<Modal onEventCloseInModal={handleModalClose}>
+                    <OrderDetails />
+                </Modal>
+                )}
             </div>
         </div>
     )
