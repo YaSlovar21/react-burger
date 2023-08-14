@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
 
 import {
   ConstructorElement,
@@ -10,7 +9,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
-import { burgerPropTypes } from '../../utils/prop-types';
 import styles from './BurgerConstructor.module.css';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
@@ -19,10 +17,10 @@ import { makeOrderRequest } from '../../utils/burger-api';
 
 function BurgerConstructor() {
 
-    const [modalOrderIsOpen, setModalOrderIsOpen] = React.useState(false);
+    //const [modalOrderIsOpen, setModalOrderIsOpen] = React.useState(false);
     const [orderNubmer, setOrderNumber] = React.useState(null);
 
-    const {ingrState, setIngrState} = useContext(IngrContext);
+    const {ingrState} = useContext(IngrContext);
 
 
     const { bun, ingredients } = useMemo(() => {
@@ -38,7 +36,7 @@ function BurgerConstructor() {
                 console.log(order);
                 if(order.success) {
                     setOrderNumber(order.order.number);
-                    setModalOrderIsOpen(true);
+                    //setModalOrderIsOpen(true);
                 }
                 else{
                     Promise.reject(`Не получилось оформить заказ. Ошибка ${order.status}`)
@@ -48,10 +46,13 @@ function BurgerConstructor() {
     }
 
     function handleModalClose() {
-        setModalOrderIsOpen(false);
+        //setModalOrderIsOpen(false);
+        setOrderNumber(null)
     }
     
-    const totalSum = bun &&  bun.price * 2 + ingredients.reduce((acc, item)=> acc+= item.price, 0);
+    const totalSum = useMemo(() => {
+        return bun &&  bun.price * 2 + ingredients.reduce((acc, item)=> acc+= item.price, 0)
+    }, [bun, ingredients]);
 
     return (
         ingrState.length && <div className={`mt-25 pl-3 ${styles.constructor}`}>
@@ -95,7 +96,7 @@ function BurgerConstructor() {
                 <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
                     Оформить заказ
                 </Button>
-                {modalOrderIsOpen && (<Modal onEventCloseInModal={handleModalClose}>
+                {orderNubmer && (<Modal onEventCloseInModal={handleModalClose}>
                     <OrderDetails orderNubmer={orderNubmer} />
                 </Modal>
                 )}

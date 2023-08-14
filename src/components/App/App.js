@@ -30,7 +30,7 @@ function App() {
       <main className={styles.content}>
         <div className={styles.page}>
           <BurgerIngredients data={ingrState} />
-          <IngrContext.Provider value={{ingrState, setIngrState}}>
+          <IngrContext.Provider value={{ingrState}}>
             <BurgerConstructor />
           </IngrContext.Provider>
         </div>
