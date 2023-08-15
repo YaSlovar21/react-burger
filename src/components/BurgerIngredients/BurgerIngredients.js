@@ -13,27 +13,41 @@ import Ingredient from '../Ingredient/Ingredient';
 import { burgerPropTypes } from '../../utils/prop-types';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { useDispatch, useSelector } from 'react-redux';
+import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions';
+
+import { getInitialIngredients } from '../../utils/burger-api';
+import { getIngregients } from '../../services/actions';
 
 function BurgerIngredients({data}) {
+    const ingredients = useSelector(store => store.ingredients);
+    const dispatch = useDispatch();
+    
+    React.useEffect(()=> {
+      dispatch(getIngregients());
+    }, [dispatch]);
+    
 
     const [current, setCurrent] = React.useState('bun');
 
-    const buns = useMemo(()=> data.filter((item) => item.type === 'bun'), [data]);
-    const mains = useMemo(()=>data.filter((item) => item.type === 'main'), [data]);
-    const sauces = useMemo(()=>data.filter((item) => item.type === 'sauce'), [data]);
+    const buns = useMemo(()=> ingredients.filter((item) => item.type === 'bun'), [ingredients]);
+    const mains = useMemo(()=>ingredients.filter((item) => item.type === 'main'), [ingredients]);
+    const sauces = useMemo(()=>ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
+
+    const ingredientViewing = useSelector(store => store.viewingIngredient);
 
     function handleIngredientClick(el) {
-        setSelectedIngr(el);
-        setModalIngrIsOpen(true);
+        dispatch({
+            type: SOME_INGR_VIEWING,
+            ingredient: el
+        })
     }
 
     function handleModalClose() {
-        setSelectedIngr({});
-        setModalIngrIsOpen(false);
+        dispatch({
+            type: SOME_INGR_VIEWING_CLEAR
+        })
     }
-
-    const [modalIngrIsOpen, setModalIngrIsOpen] = React.useState(false);
-    const [selectedIngr, setSelectedIngr] = React.useState(null);
 
     return (
         <div className={styles.ingredients}>
@@ -72,8 +86,8 @@ function BurgerIngredients({data}) {
                     ))}
                 </ul>
             </div>
-            {modalIngrIsOpen && selectedIngr && (<Modal onEventCloseInModal={handleModalClose}>
-                <IngredientDetails el={selectedIngr}/> 
+            {ingredientViewing && (<Modal onEventCloseInModal={handleModalClose}>
+                <IngredientDetails el={ingredientViewing}/> 
             </Modal>
             )}
     </div>

@@ -17,11 +17,7 @@ import { makeOrderRequest } from '../../utils/burger-api';
 
 function BurgerConstructor() {
 
-    //const [modalOrderIsOpen, setModalOrderIsOpen] = React.useState(false);
     const [orderNubmer, setOrderNumber] = React.useState(null);
-
-    const {ingrState} = useContext(IngrContext);
-
 
     const { bun, ingredients } = useMemo(() => {
         return {
