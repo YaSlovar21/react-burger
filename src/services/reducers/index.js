@@ -31,9 +31,13 @@ export const rootReducer = (state = initialState, action) => {
                 ingredients: action.ingredients
             };
         }
-        case GET_CURRENT_INGRS_IN_CONSTR: {
+        case ADD_ITEM_TO_CONSTRUCTOR: {
             return {
                 ...state,
+                selectedIngregients: {
+                    ...state.selectedIngregients, 
+                    ingrs: [...state.selectedIngregients.ingrs, ...state.ingredients.filter(item => item._id === action.id)]
+                }
             };
         }
         case SOME_INGR_VIEWING: {
@@ -51,11 +55,13 @@ export const rootReducer = (state = initialState, action) => {
         case GET_ORDER_NUMBER: {
             return {
                 ...state,
+                order: action.orderNumber
             };
         }
         case UPDATE_ORDER_NUMBER: {
             return {
                 ...state,
+                order: null
             };
         }
         default: {

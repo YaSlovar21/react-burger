@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useDrag } from "react-dnd";
+
 import {
     CurrencyIcon,
     Counter,
@@ -15,8 +17,16 @@ function Ingredient({el, onIngredientClick }) {
         onIngredientClick(el);
     }
 
+    const [, dragRef] = useDrag({
+        type: 'ingr',//el.type === 'bun' ? 'bun' : 'ingredient',
+        item: {
+            id: el._id,
+            wii: el.type
+        }
+    });
+
     return (
-        <li className={`${styles.ingredient}`} onClick={handleIngredientClick}>
+        <li ref={dragRef} className={`${styles.ingredient}`} onClick={handleIngredientClick}>
             <Counter count={1} size="default" extraClass='m-1 ingredient__count' />
             <img src={el.image} alt={el.name} />
             <p className={`text text_type_digits-default mt-2 mb-2 ${styles.ingredient__price}`}><span className='mr-2'>{el.price}</span> <CurrencyIcon type="primary" /></p>

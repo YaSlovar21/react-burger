@@ -12,57 +12,57 @@ import {
 import styles from './BurgerConstructor.module.css';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { IngrContext } from '../../services/ingrContext';
+
 import { makeOrderRequest } from '../../utils/burger-api';
+import { useDispatch, useSelector } from 'react-redux';
+import { ADD_ITEM_TO_CONSTRUCTOR, getOrderNumber, UPDATE_ORDER_NUMBER } from '../../services/actions';
+
+import { useDrop } from "react-dnd";
 
 function BurgerConstructor() {
 
-    const [orderNubmer, setOrderNumber] = React.useState(null);
+    
+    const { totalPrice, orderNubmer, bun, ingredients } = useSelector(store => ({
+        orderNubmer: store.order,
+        bun: store.selectedIngregients.bun,
+        ingredients: store.selectedIngregients.ingrs,
+        totalPrice: (store.selectedIngregients.bun && store.selectedIngregients.bun.price * 2) +  store.selectedIngregients.ingrs.reduce((acc, item)=> acc+=item.price, 0)
+    }))
+    const dispatch = useDispatch();
 
-    const { bun, ingredients } = useMemo(() => {
-        return {
-          bun: ingrState.find(item => item.type === 'bun'),
-          ingredients: ingrState.filter(item => item.type !== 'bun' && Math.round(Math.random()) === 1),
-        };
-      }, [ingrState]);
+    const [,dropTargetRef] =useDrop({
+        accept: 'ingr',
+        drop(item) {
+            dispatch({
+                type: ADD_ITEM_TO_CONSTRUCTOR,
+                id: item.id
+            })
+        }
+    })
 
     function handleOrderButtonClick() {
-        makeOrderRequest(ingredients.concat(bun, bun))
-            .then(order => {
-                console.log(order);
-                if(order.success) {
-                    setOrderNumber(order.order.number);
-                    //setModalOrderIsOpen(true);
-                }
-                else{
-                    Promise.reject(`Не получилось оформить заказ. Ошибка ${order.status}`)
-                }
-            })
-            .catch(e => console.log(e));
+        dispatch(getOrderNumber(ingredients))
     }
 
     function handleModalClose() {
-        //setModalOrderIsOpen(false);
-        setOrderNumber(null)
+        dispatch({
+            type: UPDATE_ORDER_NUMBER
+        });
     }
-    
-    const totalSum = useMemo(() => {
-        return bun &&  bun.price * 2 + ingredients.reduce((acc, item)=> acc+= item.price, 0)
-    }, [bun, ingredients]);
 
     return (
-        ingrState.length && <div className={`mt-25 pl-3 ${styles.constructor}`}>
-           <ConstructorElement
+        <div ref={dropTargetRef} className={`mt-25 pl-3 ${styles.constructor}`}>
+           {bun && <ConstructorElement
                 type="top"
                 isLocked={true}
                 text={bun.name}
                 price={bun.price}
                 thumbnail={bun.image}
                 extraClass="ml-8"
-            />
+            />}
             <ul className={styles.zakaz}>
                 {
-                    ingredients.map(({_id, name, price, image}) => (
+                    ingredients && ingredients.map(({_id, name, price, image}) => (
                         <li key={_id}>
                             <DragIcon type="primary" />
                             <ConstructorElement
@@ -75,18 +75,18 @@ function BurgerConstructor() {
                     )) 
                 }
             </ul>
-            <ConstructorElement
+            {bun&& <ConstructorElement
                 type="bottom"
                 isLocked={true}
                 text={bun.name}
                 price={bun.price}
                 thumbnail={bun.image}
                 extraClass="ml-8"
-            />
+            />}
  
             <div className={`pt-10 ${styles.total}`}>
                 <div className={`mr-10 ${styles.price}`}>
-                    <span className='text text_type_digits-medium mr-2'>{totalSum}</span>
+                    <span className='text text_type_digits-medium mr-2'>{totalPrice}</span>
                     <CurrencyIcon />
                 </div>
                 <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>

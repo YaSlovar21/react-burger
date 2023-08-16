@@ -1,7 +1,7 @@
 .constructor {
     flex-basis: 600px;
     max-height: 912px;
-    overflow-y: auto;
+   
     box-sizing: border-box;
     
 }
@@ -9,6 +9,7 @@
 .zakaz {
     /*height: 464px;*/
     max-height: 43vh;
+    height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
 

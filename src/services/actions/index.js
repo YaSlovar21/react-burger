@@ -1,4 +1,4 @@
-import { getInitialIngredients } from "../../utils/burger-api";
+import { getInitialIngredients, makeOrderRequest } from "../../utils/burger-api";
 
 //Получение списка ингредиентов от API. Используется в компоненте BurgerIngredients
 export const GET_INGREDIENTS_LIST_SUCCESS = 'GET_INGREDIENTS_LIST_SUCCESS';
@@ -37,5 +37,24 @@ export function getIngregients() {
                     type: GET_INGREDIENTS_LIST_FAILED,
                 })
             });
+    }
+}
+
+export function getOrderNumber(arr) {
+    return function(dispatch) {
+        makeOrderRequest(arr)
+        .then(order => {
+            console.log(order);
+            if(order.success) {
+                dispatch({
+                    type: GET_ORDER_NUMBER,
+                    orderNumber: order.order.number
+                })
+            }
+            else{
+                Promise.reject(`Не получилось оформить заказ. Ошибка ${order.status}`)
+            }
+        })
+        .catch(e => console.log(e));
     }
 }
