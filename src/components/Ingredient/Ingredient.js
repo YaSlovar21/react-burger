@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDrag } from "react-dnd";
@@ -10,8 +10,11 @@ import {
 
 import styles from './Ingredient.module.css';
 import { burgerPropTypes } from '../../utils/prop-types';
+import {  useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
-function Ingredient({el, onIngredientClick }) {
+
+function Ingredient({el, onIngredientClick, checkCount }) {
 
     function handleIngredientClick() {
         onIngredientClick(el);
@@ -19,15 +22,20 @@ function Ingredient({el, onIngredientClick }) {
 
     const [, dragRef] = useDrag({
         type: 'ingr',//el.type === 'bun' ? 'bun' : 'ingredient',
-        item: {
-            id: el._id,
-            wii: el.type
-        }
+        item: el //{
+
+            //id: el._id,
+            //wii: el.type
+        //}
     });
+
+    const ingredientsInConstructor = useSelector(store => store.selectedIngregients);
+    
+    const count = useMemo(() => ingredientsInConstructor.ingrs.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
 
     return (
         <li ref={dragRef} className={`${styles.ingredient}`} onClick={handleIngredientClick}>
-            <Counter count={1} size="default" extraClass='m-1 ingredient__count' />
+            <Counter count={count} size="default" extraClass='m-1 ingredient__count' />
             <img src={el.image} alt={el.name} />
             <p className={`text text_type_digits-default mt-2 mb-2 ${styles.ingredient__price}`}><span className='mr-2'>{el.price}</span> <CurrencyIcon type="primary" /></p>
             <h3 className={`text text_type_main-default ${styles.ingredient__name}`}>{el.name}</h3>

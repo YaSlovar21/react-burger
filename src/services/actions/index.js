@@ -8,7 +8,7 @@ export const GET_INGREDIENTS_LIST_FAILED = 'GET_INGREDIENTS_LIST_SUCCESS';
 export const GET_CURRENT_INGRS_IN_CONSTR = 'GET_CURRENT_INGRS_IN_CONSTR';
 export const ADD_ITEM_TO_CONSTRUCTOR = 'ADD_ITEM_TO_CONSTRUCTOR';
 export const DELETE_ITEM_FROM_CONSTRUCTOR = 'DELETE_ITEM_FROM_CONSTRUCTOR'
-
+export const MOVE_INGREDIENTS = 'MOVE_INGREDIENTS';
 
 //Добавление удаление данных о просматриваемом в модальном окне IngredientDetails ингредиенте.
 export const SOME_INGR_VIEWING = 'SOME_INGR_SELECTED';
@@ -30,6 +30,7 @@ export function getIngregients() {
                     type: GET_INGREDIENTS_LIST_SUCCESS,
                     ingredients: res.data
                 })
+                console.log(res.data)
             })
             .catch(e => {
                 console.log(e);

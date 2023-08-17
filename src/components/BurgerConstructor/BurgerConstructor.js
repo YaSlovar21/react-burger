@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import {
   ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -13,11 +12,13 @@ import styles from './BurgerConstructor.module.css';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
-import { makeOrderRequest } from '../../utils/burger-api';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_ITEM_TO_CONSTRUCTOR, getOrderNumber, UPDATE_ORDER_NUMBER } from '../../services/actions';
+import { ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR, getOrderNumber, UPDATE_ORDER_NUMBER } from '../../services/actions';
 
 import { useDrop } from "react-dnd";
+import { useId } from 'react';
+import { v4 as uuidv4 } from 'uuid'
+import IngredientInConstructor from '../IngredientInConstructor/IngredientInConstructor';
 
 function BurgerConstructor() {
 
@@ -30,12 +31,20 @@ function BurgerConstructor() {
     }))
     const dispatch = useDispatch();
 
+    function addCustomID(obj) {
+        const id = uuidv4();
+        return {
+            ...obj,
+            idtd: id
+        }
+    }
+
     const [,dropTargetRef] =useDrop({
         accept: 'ingr',
         drop(item) {
             dispatch({
                 type: ADD_ITEM_TO_CONSTRUCTOR,
-                id: item.id
+                item1:  addCustomID(item)
             })
         }
     })
@@ -62,16 +71,8 @@ function BurgerConstructor() {
             />}
             <ul className={styles.zakaz}>
                 {
-                    ingredients && ingredients.map(({_id, name, price, image}) => (
-                        <li key={_id}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text={name}
-                                price={price}
-                                thumbnail={image}
-                                extraClass="ml-2 mr-2"
-                            />
-                        </li>
+                    ingredients && ingredients.map((item, index) => (
+                        <IngredientInConstructor {...item} index={index} />
                     )) 
                 }
             </ul>

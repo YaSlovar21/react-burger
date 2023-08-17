@@ -1,3 +1,4 @@
+
 import {
   GET_INGREDIENTS_LIST_SUCCESS,
   GET_INGREDIENTS_LIST_FAILED,
@@ -11,6 +12,7 @@ import {
 
   GET_ORDER_NUMBER,
   UPDATE_ORDER_NUMBER,
+  MOVE_INGREDIENTS,
 } from "../actions";
 
 const initialState = {
@@ -36,9 +38,31 @@ export const rootReducer = (state = initialState, action) => {
                 ...state,
                 selectedIngregients: {
                     ...state.selectedIngregients, 
-                    ingrs: [...state.selectedIngregients.ingrs, ...state.ingredients.filter(item => item._id === action.id)]
-                }
+                    ingrs: [...state.selectedIngregients.ingrs].concat(action.item1)
+                },
+                
             };
+        }
+       case DELETE_ITEM_FROM_CONSTRUCTOR: {
+            return {
+                ...state,
+                selectedIngregients: {
+                    ...state.selectedIngregients,
+                    ingrs: [...state.selectedIngregients.ingrs.filter(item => item.idtd !== action.idtd)]
+                }
+            }
+        }
+        case MOVE_INGREDIENTS: {
+            
+            //items.splice(action.dragIndex, 1);
+            //items.splice(action.hoverIndex, 0, [...state.selectedIngregients.ingrs][action.dragIndex]);
+            return {
+                ...state,
+                selectedIngregients: {
+                    ...state.selectedIngregients,
+                    ingrs: state.selectedIngregients.ingrs.map(i=>i)
+                }
+            }
         }
         case SOME_INGR_VIEWING: {
             return {
