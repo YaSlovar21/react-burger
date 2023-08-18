@@ -12,12 +12,12 @@ import Ingredient from '../Ingredient/Ingredient';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
-import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions';
+import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 
-import { getIngregients } from '../../services/actions';
+import { getIngregients } from '../../services/actions/get-ingredients';
 
 function BurgerIngredients() {
-    const ingredients = useSelector(store => store.ingredients);
+    const ingredients = useSelector(store => store.ingredients.items);
     const dispatch = useDispatch();
     
     React.useEffect(()=> {
@@ -42,7 +42,7 @@ function BurgerIngredients() {
         : setCurrent('main')
     }, [isBunsInView, isMainsInView, isSaucesInView])
 
-    const ingredientViewing = useSelector(store => store.viewingIngredient);
+    const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
     
     function handleIngredientClick(el) {
         dispatch({
@@ -76,7 +76,7 @@ function BurgerIngredients() {
                 <ul ref={refBuns} className={styles.ingredients__list}>
                     {buns
                     .map((item) => (
-                        <Ingredient   el={item} key={item._id} onIngredientClick={handleIngredientClick}/>
+                        <Ingredient el={item} key={item._id} onIngredientClick={handleIngredientClick}/>
                     ))}
                 </ul>
                 <h2 className='text text_type_main-medium mb-6 mt-10'>Соусы</h2>
@@ -90,7 +90,7 @@ function BurgerIngredients() {
                 <ul ref={mainsRef} className={styles.ingredients__list}>
                     {mains
                     .map((item) => (
-                        <Ingredient   el={item} key={item._id} onIngredientClick={handleIngredientClick} />
+                        <Ingredient el={item} key={item._id} onIngredientClick={handleIngredientClick} />
                     ))}
                 </ul>
             </div>

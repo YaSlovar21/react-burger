@@ -14,19 +14,20 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
 
-import { ADD_ITEM_TO_CONSTRUCTOR, getOrderNumber, SET_ORDER_MODAL_POS,  } from '../../services/actions';
+
 
 import IngredientInConstructor from '../IngredientInConstructor/IngredientInConstructor';
+import { getOrderNumber, SET_ORDER_MODAL_POS } from '../../services/actions/send-order';
+import { ADD_ITEM_TO_CONSTRUCTOR } from '../../services/actions/constructor';
 
 function BurgerConstructor() {
 
-    const { totalPrice, orderNubmer,isOrderViewing, bun, ingredients } = useSelector(store => ({
-        orderNubmer: store.order,
-        isOrderViewing: store.isOrderViewing,
-        bun: store.bun,
-        ingredients: store.ingrsInCart,
-        totalPrice: (store.bun && store.bun.price * 2) +  store.ingrsInCart.reduce((acc, item)=> acc+=item?.price, 0)
-    }));
+    const orderNubmer = useSelector(store => store.order.number);
+    const isOrderViewing = useSelector(store => store.order.isOrderViewing);
+    const bun = useSelector(store => store.cart.bun);
+    const ingredients = useSelector(store => store.cart.ingrsInCart);
+    
+    const totalPrice = (bun && bun.price * 2) + ingredients.reduce((acc, item)=> acc+=item?.price, 0);
 
     const dispatch = useDispatch();
 
@@ -53,7 +54,8 @@ function BurgerConstructor() {
     })
 
     function handleOrderButtonClick() {
-        dispatch(getOrderNumber(ingredients));
+        //булка+ингрс+булка
+        dispatch(getOrderNumber([].concat(bun, ingredients, bun)));
         dispatch({
             type: SET_ORDER_MODAL_POS,
             pos: true

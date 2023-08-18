@@ -26,8 +26,8 @@ function Ingredient({el, onIngredientClick }) {
         //{ id: el._id, wii: el.type }
     });
 
-    const ingrs = useSelector(store => store.ingrsInCart);
-    const bunInConstr = useSelector(store => store.bun);
+    const ingrs = useSelector(store => store.cart.ingrsInCart);
+    const bunInConstr = useSelector(store => store.cart.bun);
 
     const ingredientsInConstructor= ingrs.concat(bunInConstr, bunInConstr);
 

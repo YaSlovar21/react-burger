@@ -7,10 +7,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_ITEM_FROM_CONSTRUCTOR, MOVE_INGREDIENTS } from "../../services/actions";
 import { useDrag, useDrop } from "react-dnd";
+import { DELETE_ITEM_FROM_CONSTRUCTOR, MOVE_INGREDIENTS } from "../../services/actions/constructor";
 
-
+import styles from './IngredientInConstructor.module.css';
 
 function IngredientInConstructor({name, price, image, idtd, index}) {
     const dispatch = useDispatch();
@@ -36,9 +36,26 @@ function IngredientInConstructor({name, price, image, idtd, index}) {
 
     const [, dropRef] = useDrop({
         accept: 'idragging',
-        hover(itemToPush) {
+        hover(itemToPush, monitor) {
             const hoverIndex = index;
             const dragIndex = itemToPush.index;
+            if (dragIndex === hoverIndex) {
+                return;
+            }
+            
+            const hoverBoundingRect = ref.current?.getBoundingClientRect();
+            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+            const clientOffset = monitor.getClientOffset();
+            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        
+            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+                return;
+            }
+        
+            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+                return;
+            }
+
             dispatch({
                 type: MOVE_INGREDIENTS,
                 dragIndex,
@@ -55,7 +72,7 @@ function IngredientInConstructor({name, price, image, idtd, index}) {
                 text={name}
                 price={price}
                 thumbnail={image}
-                extraClass="ml-2 mr-2"
+                extraClass="ml-2"
                 handleClose={(() => handleDelete(idtd))}
             />
         </li>
