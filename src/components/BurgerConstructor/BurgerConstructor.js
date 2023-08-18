@@ -55,7 +55,8 @@ function BurgerConstructor() {
 
     function handleOrderButtonClick() {
         //булка+ингрс+булка
-        dispatch(getOrderNumber([].concat(bun, ingredients, bun)));
+        const ingredientsArr = bun ? [].concat(bun, ingredients, bun) : [].concat(ingredients);
+        dispatch(getOrderNumber(ingredientsArr));
         dispatch({
             type: SET_ORDER_MODAL_POS,
             pos: true
