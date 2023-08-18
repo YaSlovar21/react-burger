@@ -14,24 +14,24 @@ import {  useSelector } from 'react-redux';
 import { useMemo } from 'react';
 
 
-function Ingredient({el, onIngredientClick, checkCount }) {
+function Ingredient({el, onIngredientClick }) {
 
     function handleIngredientClick() {
         onIngredientClick(el);
     }
 
     const [, dragRef] = useDrag({
-        type: 'ingr',//el.type === 'bun' ? 'bun' : 'ingredient',
-        item: el //{
-
-            //id: el._id,
-            //wii: el.type
-        //}
+        type: 'ingr', 
+        item: el 
+        //{ id: el._id, wii: el.type }
     });
 
-    const ingredientsInConstructor = useSelector(store => store.selectedIngregients);
-    
-    const count = useMemo(() => ingredientsInConstructor.ingrs.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
+    const ingrs = useSelector(store => store.ingrsInCart);
+    const bunInConstr = useSelector(store => store.bun);
+
+    const ingredientsInConstructor= ingrs.concat(bunInConstr, bunInConstr);
+
+    const count = useMemo(() => ingredientsInConstructor.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
 
     return (
         <li ref={dragRef} className={`${styles.ingredient}`} onClick={handleIngredientClick}>

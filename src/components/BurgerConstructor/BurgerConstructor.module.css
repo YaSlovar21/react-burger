@@ -9,15 +9,19 @@
 .zakaz {
     /*height: 464px;*/
     max-height: 43vh;
-    height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
 
     display: flex;
     flex-direction: column;
     gap: 16px;
+    margin: 0;
     padding: 0;
     list-style-type: none; 
+}
+
+.bunhovered {
+    border: 1px dotted #4c4cff;
 }
 
 .zakaz::-webkit-scrollbar {

@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import PropTypes from 'prop-types';
 
 import {
     ConstructorElement,
@@ -11,7 +12,7 @@ import { useDrag, useDrop } from "react-dnd";
 
 
 
-function IngredientInConstructor({_id, name, price, image, idtd, index}) {
+function IngredientInConstructor({name, price, image, idtd, index}) {
     const dispatch = useDispatch();
     const ref = useRef(null)
     function handleDelete(id) {
@@ -38,17 +39,17 @@ function IngredientInConstructor({_id, name, price, image, idtd, index}) {
         hover(itemToPush) {
             const hoverIndex = index;
             const dragIndex = itemToPush.index;
-            itemToPush.index = hoverIndex;
-            /*dispatch({
+            dispatch({
                 type: MOVE_INGREDIENTS,
                 dragIndex,
                 hoverIndex
-            });*/
+            });
+            itemToPush.index = hoverIndex;
         }
     })
     dragRef(dropRef(ref));
     return (
-        <li ref={ref} key={`${_id}-${index}`}>
+        <li ref={ref}>
             <DragIcon type="primary" />
             <ConstructorElement
                 text={name}
@@ -60,5 +61,14 @@ function IngredientInConstructor({_id, name, price, image, idtd, index}) {
         </li>
     );
 }
+
+IngredientInConstructor.propTypes = {
+        name: PropTypes.string, 
+        price: PropTypes.number, 
+        image: PropTypes.string, 
+        idtd: PropTypes.string, 
+        index: PropTypes.number
+};
+
 
 export default IngredientInConstructor;

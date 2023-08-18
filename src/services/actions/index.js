@@ -17,6 +17,7 @@ export const SOME_INGR_VIEWING_CLEAR = 'SOME_INGR_SELECTED_CLEAR';
 //Получение и обновление номера заказа в модальном окне OrderDetails
 export const GET_ORDER_NUMBER = 'GET_ORDER_NUMBER';
 export const UPDATE_ORDER_NUMBER = 'UPDATE_ORDER_NUMBER';
+export const SET_ORDER_MODAL_POS = 'SET_ORDER_MODAL_POS';
 
 export const INCREASE_ITEM = 'INCREASE_ITEM';
 export const DECREASE_ITEM = 'DECREASE_ITEM';
@@ -30,7 +31,6 @@ export function getIngregients() {
                     type: GET_INGREDIENTS_LIST_SUCCESS,
                     ingredients: res.data
                 })
-                console.log(res.data)
             })
             .catch(e => {
                 console.log(e);
@@ -45,7 +45,6 @@ export function getOrderNumber(arr) {
     return function(dispatch) {
         makeOrderRequest(arr)
         .then(order => {
-            console.log(order);
             if(order.success) {
                 dispatch({
                     type: GET_ORDER_NUMBER,

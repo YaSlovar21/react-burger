@@ -12,18 +12,29 @@ import {
 
   GET_ORDER_NUMBER,
   UPDATE_ORDER_NUMBER,
+  SET_ORDER_MODAL_POS,
+
   MOVE_INGREDIENTS,
 } from "../actions";
 
 const initialState = {
     ingredients: [],
-    selectedIngregients: {
-        bun: null,
-        ingrs: []
-    },
+    
+    bun: null,
+    ingrsInCart: [],
+
     viewingIngredient: null,
     order: null,
+    isOrderViewing: null,
 }
+
+function removeDraggedElSplice(array, action) {
+    let prevArray = array.slice()
+    let newArray = array.slice()
+    newArray.splice(action.dragIndex, 1)
+    newArray.splice(action.hoverIndex, 0, prevArray[action.dragIndex])
+    return newArray
+  }
 
 export const rootReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -34,34 +45,28 @@ export const rootReducer = (state = initialState, action) => {
             };
         }
         case ADD_ITEM_TO_CONSTRUCTOR: {
-            return {
-                ...state,
-                selectedIngregients: {
-                    ...state.selectedIngregients, 
-                    ingrs: [...state.selectedIngregients.ingrs].concat(action.item1)
-                },
-                
+            if (action.item1.type !== 'bun') {
+                return {
+                    ...state,
+                    ingrsInCart: [...state.ingrsInCart].concat(action.item1)
+                }
+            } else {
+                return {
+                    ...state,
+                    bun: action.item1
+                }
             };
         }
        case DELETE_ITEM_FROM_CONSTRUCTOR: {
             return {
                 ...state,
-                selectedIngregients: {
-                    ...state.selectedIngregients,
-                    ingrs: [...state.selectedIngregients.ingrs.filter(item => item.idtd !== action.idtd)]
-                }
+                ingrsInCart: [...state.ingrsInCart.filter(item => item.idtd !== action.idtd)]
             }
         }
         case MOVE_INGREDIENTS: {
-            
-            //items.splice(action.dragIndex, 1);
-            //items.splice(action.hoverIndex, 0, [...state.selectedIngregients.ingrs][action.dragIndex]);
             return {
                 ...state,
-                selectedIngregients: {
-                    ...state.selectedIngregients,
-                    ingrs: state.selectedIngregients.ingrs.map(i=>i)
-                }
+                ingrsInCart: removeDraggedElSplice(state.ingrsInCart, action)
             }
         }
         case SOME_INGR_VIEWING: {
@@ -76,6 +81,12 @@ export const rootReducer = (state = initialState, action) => {
                 viewingIngredient: null
             };
         }
+        case SET_ORDER_MODAL_POS: {
+            return {
+                ...state,
+                isOrderViewing: action.pos
+            }
+        }
         case GET_ORDER_NUMBER: {
             return {
                 ...state,
@@ -85,7 +96,7 @@ export const rootReducer = (state = initialState, action) => {
         case UPDATE_ORDER_NUMBER: {
             return {
                 ...state,
-                order: null
+                order: action.orderNumber
             };
         }
         default: {

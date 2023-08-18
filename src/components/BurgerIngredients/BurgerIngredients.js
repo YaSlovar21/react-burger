@@ -1,26 +1,22 @@
-import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 
 import {
   Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useMemo } from 'react';
-
 import styles from './BurgerIngredients.module.css';
-import Ingredient from '../Ingredient/Ingredient';
 
-import { burgerPropTypes } from '../../utils/prop-types';
+import Ingredient from '../Ingredient/Ingredient';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions';
 
-import { getInitialIngredients } from '../../utils/burger-api';
 import { getIngregients } from '../../services/actions';
 
-function BurgerIngredients({data}) {
+function BurgerIngredients() {
     const ingredients = useSelector(store => store.ingredients);
     const dispatch = useDispatch();
     
@@ -28,7 +24,6 @@ function BurgerIngredients({data}) {
       dispatch(getIngregients());
     }, [dispatch]);
     
-
     const [current, setCurrent] = React.useState('bun');
 
     const buns = useMemo(()=> ingredients.filter((item) => item.type === 'bun'), [ingredients]);
@@ -49,9 +44,6 @@ function BurgerIngredients({data}) {
 
     const ingredientViewing = useSelector(store => store.viewingIngredient);
     
-
-
-
     function handleIngredientClick(el) {
         dispatch({
             type: SOME_INGR_VIEWING,
@@ -110,8 +102,5 @@ function BurgerIngredients({data}) {
     )
 }
 
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(burgerPropTypes.isRequired).isRequired
-};
 
 export default BurgerIngredients;
