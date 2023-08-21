@@ -1,102 +1,111 @@
-import React, { useContext, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
+import { useDrop } from "react-dnd";
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid'
 
 import {
   ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-
 import styles from './BurgerConstructor.module.css';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { IngrContext } from '../../services/ingrContext';
-import { makeOrderRequest } from '../../utils/burger-api';
+
+
+
+
+import IngredientInConstructor from '../IngredientInConstructor/IngredientInConstructor';
+import { getOrderNumber, SET_ORDER_MODAL_POS } from '../../services/actions/send-order';
+import { ADD_ITEM_TO_CONSTRUCTOR } from '../../services/actions/constructor';
 
 function BurgerConstructor() {
 
-    //const [modalOrderIsOpen, setModalOrderIsOpen] = React.useState(false);
-    const [orderNubmer, setOrderNumber] = React.useState(null);
+    const orderNubmer = useSelector(store => store.order.number);
+    const isOrderViewing = useSelector(store => store.order.isOrderViewing);
+    const bun = useSelector(store => store.cart.bun);
+    const ingredients = useSelector(store => store.cart.ingrsInCart);
+    
+    const totalPrice = (bun && bun.price * 2) + ingredients.reduce((acc, item)=> acc+=item?.price, 0);
 
-    const {ingrState} = useContext(IngrContext);
+    const dispatch = useDispatch();
 
-
-    const { bun, ingredients } = useMemo(() => {
+    function addCustomID(obj) {
+        const id = uuidv4();
         return {
-          bun: ingrState.find(item => item.type === 'bun'),
-          ingredients: ingrState.filter(item => item.type !== 'bun' && Math.round(Math.random()) === 1),
-        };
-      }, [ingrState]);
+            ...obj,
+            idtd: id
+        }
+    }
+
+    const [{isOver, itemType},dropTargetRef] =useDrop({
+        accept: 'ingr',
+        drop(item) {
+            dispatch({
+                type: ADD_ITEM_TO_CONSTRUCTOR,
+                item1:  addCustomID(item)
+            })
+        },
+        collect: (monitor=> ({
+            isOver: monitor.isOver(),
+            itemType: monitor.getItem()
+        }))
+    })
 
     function handleOrderButtonClick() {
-        makeOrderRequest(ingredients.concat(bun, bun))
-            .then(order => {
-                console.log(order);
-                if(order.success) {
-                    setOrderNumber(order.order.number);
-                    //setModalOrderIsOpen(true);
-                }
-                else{
-                    Promise.reject(`Не получилось оформить заказ. Ошибка ${order.status}`)
-                }
-            })
-            .catch(e => console.log(e));
+        //булка+ингрс+булка
+        const ingredientsArr = bun ? [].concat(bun, ingredients, bun) : [].concat(ingredients);
+        dispatch(getOrderNumber(ingredientsArr));
+        dispatch({
+            type: SET_ORDER_MODAL_POS,
+            pos: true
+        })
     }
 
     function handleModalClose() {
-        //setModalOrderIsOpen(false);
-        setOrderNumber(null)
+        dispatch({
+            type: SET_ORDER_MODAL_POS,
+            pos: false
+        });
     }
-    
-    const totalSum = useMemo(() => {
-        return bun &&  bun.price * 2 + ingredients.reduce((acc, item)=> acc+= item.price, 0)
-    }, [bun, ingredients]);
 
     return (
-        ingrState.length && <div className={`mt-25 pl-3 ${styles.constructor}`}>
-           <ConstructorElement
+        <div ref={dropTargetRef} className={`mt-25 pl-3 ${styles.constructor}`}>
+           {bun ? ( <ConstructorElement
                 type="top"
                 isLocked={true}
                 text={bun.name}
                 price={bun.price}
                 thumbnail={bun.image}
-                extraClass="ml-8"
-            />
+                extraClass="ml-8 mb-4"
+            /> ) : (<div className={`${isOver && itemType.type === 'bun' && styles.bunhovered} constructor-element constructor-element_pos_top ml-8 mb-4 constructor-element__text`}>Перетяните булку</div>)}
+            {ingredients.length === 0 && <div className={`${isOver && itemType.type !== 'bun' && styles.bunhovered} constructor-element ml-8 constructor-element__text`}>Перетяните сюда элементы</div>}
             <ul className={styles.zakaz}>
                 {
-                    ingredients.map(({_id, name, price, image}) => (
-                        <li key={_id}>
-                            <DragIcon type="primary" />
-                            <ConstructorElement
-                                text={name}
-                                price={price}
-                                thumbnail={image}
-                                extraClass="ml-2 mr-2"
-                            />
-                        </li>
-                    )) 
+                    !!ingredients.length && ingredients.map((item, index) => (
+                        <IngredientInConstructor key={`${item.id}-${index}`} {...item} index={index} />
+                    ))
                 }
             </ul>
-            <ConstructorElement
+            {bun ? (<ConstructorElement
                 type="bottom"
                 isLocked={true}
                 text={bun.name}
                 price={bun.price}
                 thumbnail={bun.image}
-                extraClass="ml-8"
-            />
+                extraClass="ml-8 mt-4"
+            />) : ( <div className={`${isOver && itemType.type === 'bun' && styles.bunhovered} constructor-element constructor-element_pos_bottom ml-8 mt-4 constructor-element__text`}>Перетяните булку</div> )}
  
             <div className={`pt-10 ${styles.total}`}>
                 <div className={`mr-10 ${styles.price}`}>
-                    <span className='text text_type_digits-medium mr-2'>{totalSum}</span>
+                    <span className='text text_type_digits-medium mr-2'>{totalPrice}</span>
                     <CurrencyIcon />
                 </div>
                 <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
                     Оформить заказ
                 </Button>
-                {orderNubmer && (<Modal onEventCloseInModal={handleModalClose}>
+                {orderNubmer && isOrderViewing && (<Modal onEventCloseInModal={handleModalClose}>
                     <OrderDetails orderNubmer={orderNubmer} />
                 </Modal>
                 )}
@@ -104,10 +113,5 @@ function BurgerConstructor() {
         </div>
     )
 }
-
-
-//BurgerConstructor.propTypes = {
-    //data: PropTypes.arrayOf(burgerPropTypes.isRequired).isRequired
-//};
 
 export default BurgerConstructor;

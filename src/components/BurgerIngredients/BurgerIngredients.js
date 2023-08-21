@@ -1,44 +1,66 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 
 import {
   Tab,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useMemo } from 'react';
-
 import styles from './BurgerIngredients.module.css';
-import Ingredient from '../Ingredient/Ingredient';
 
-import { burgerPropTypes } from '../../utils/prop-types';
+import Ingredient from '../Ingredient/Ingredient';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
-function BurgerIngredients({data}) {
+import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 
+import { getIngregients } from '../../services/actions/get-ingredients';
+
+function BurgerIngredients() {
+    const ingredients = useSelector(store => store.ingredients.items);
+    const dispatch = useDispatch();
+    
+    React.useEffect(()=> {
+      dispatch(getIngregients());
+    }, [dispatch]);
+    
     const [current, setCurrent] = React.useState('bun');
 
-    const buns = useMemo(()=> data.filter((item) => item.type === 'bun'), [data]);
-    const mains = useMemo(()=>data.filter((item) => item.type === 'main'), [data]);
-    const sauces = useMemo(()=>data.filter((item) => item.type === 'sauce'), [data]);
+    const buns = useMemo(()=> ingredients.filter((item) => item.type === 'bun'), [ingredients]);
+    const mains = useMemo(()=>ingredients.filter((item) => item.type === 'main'), [ingredients]);
+    const sauces = useMemo(()=>ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
+    const containerRef = useRef(null);
+    const [refBuns, isBunsInView] = useInView({threshold: 0.49, root: containerRef.current});
+    const [sauceRef, isSaucesInView] = useInView({threshold: 0.51, root: containerRef.current});
+    const [mainsRef, isMainsInView] = useInView({threshold: 0.51, root: containerRef.current});
 
+    useEffect(()=> {
+        isBunsInView 
+        ? setCurrent('bun')
+        : isSaucesInView 
+        ? setCurrent('sauce') 
+        : setCurrent('main')
+    }, [isBunsInView, isMainsInView, isSaucesInView])
+
+    const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
+    
     function handleIngredientClick(el) {
-        setSelectedIngr(el);
-        setModalIngrIsOpen(true);
+        dispatch({
+            type: SOME_INGR_VIEWING,
+            ingredient: el
+        })
     }
 
     function handleModalClose() {
-        setSelectedIngr({});
-        setModalIngrIsOpen(false);
+        dispatch({
+            type: SOME_INGR_VIEWING_CLEAR
+        })
     }
 
-    const [modalIngrIsOpen, setModalIngrIsOpen] = React.useState(false);
-    const [selectedIngr, setSelectedIngr] = React.useState(null);
-
     return (
-        <div className={styles.ingredients}>
+        <div ref={containerRef} className={styles.ingredients}>
             <h1 className='text text_type_main-large mt-10'>Соберите бургер</h1>
-            <div className={`mt-5 mb-10 ${styles.tabs}`}>
+            <div  className={`mt-5 mb-10 ${styles.tabs}`}>
                 <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                 Булки
                 </Tab>
@@ -51,37 +73,34 @@ function BurgerIngredients({data}) {
             </div>
             <div className={styles.listwrapper}>
                 <h2 className='text text_type_main-medium mb-6'>Булки</h2>
-                <ul className={styles.ingredients__list}>
+                <ul ref={refBuns} className={styles.ingredients__list}>
                     {buns
                     .map((item) => (
                         <Ingredient el={item} key={item._id} onIngredientClick={handleIngredientClick}/>
                     ))}
                 </ul>
                 <h2 className='text text_type_main-medium mb-6 mt-10'>Соусы</h2>
-                <ul className={styles.ingredients__list}>
+                <ul ref={sauceRef} className={styles.ingredients__list}>
                     {sauces
                     .map((item) => (
                         <Ingredient el={item} key={item._id} onIngredientClick={handleIngredientClick} />
                     ))}
                 </ul>
                 <h2 className='text text_type_main-medium mb-6 mt-10'>Начинки</h2>
-                <ul className={styles.ingredients__list}>
+                <ul ref={mainsRef} className={styles.ingredients__list}>
                     {mains
                     .map((item) => (
                         <Ingredient el={item} key={item._id} onIngredientClick={handleIngredientClick} />
                     ))}
                 </ul>
             </div>
-            {modalIngrIsOpen && selectedIngr && (<Modal onEventCloseInModal={handleModalClose}>
-                <IngredientDetails el={selectedIngr}/> 
+            {ingredientViewing && (<Modal onEventCloseInModal={handleModalClose}>
+                <IngredientDetails el={ingredientViewing}/> 
             </Modal>
             )}
     </div>
     )
 }
 
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(burgerPropTypes.isRequired).isRequired
-};
 
 export default BurgerIngredients;
