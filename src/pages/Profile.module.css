@@ -1,0 +1,23 @@
+.formpagecontent {
+   
+    display: flex;
+    align-items: flex-start;
+    max-width: 1280px;
+    margin: 120px auto 0;
+}
+
+.formpagecontent__menu {
+    max-width: 320px;
+}
+
+.navlist {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.navlist__item {
+    height: 64px;
+    display: flex;
+    align-items: center;
+}

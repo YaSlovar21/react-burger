@@ -5,6 +5,10 @@
     width: 100%;
 }
 
+.ingredient_place_page {
+    align-items: center;
+    width: auto;
+}
 
 .detailstitle {
     width: 100%;

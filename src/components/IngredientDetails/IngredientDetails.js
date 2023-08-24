@@ -6,10 +6,10 @@ import { burgerPropTypes } from '../../utils/prop-types';
 
 
 
-function IngredientDetails({el}) {
+function IngredientDetails({el, extraClass}) {
     return (
-        <div className={`p-10 ${styles.wrapper}`}>
-            <h2 className={`text text text_type_main-large mt-4 ${styles.detailstitle}`} >Детали заказа</h2>
+        <div className={`p-10 ${styles.wrapper} ${extraClass && styles.ingredient_place_page}`}>
+            <h2 className={`text text text_type_main-large mt-4 ${!extraClass && styles.detailstitle}`} >Детали заказа</h2>
             <img className={styles.image} src={el.image_large} alt={el.name} />
             <p className='text text_type_main-medium'>{el.name}</p>
             <ul className={`mt-8 mb-5 ${styles.charslist}`}>

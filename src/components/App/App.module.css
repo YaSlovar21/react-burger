@@ -2,15 +2,3 @@
     height: 100vh;
 }
 
-.content {
-    
-    overflow: hidden;
-}
-
-.page {
-    height: 100%;
-    max-width: 1240px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-}

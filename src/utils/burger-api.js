@@ -1,4 +1,4 @@
-import { BASE_URL, ORDER_URL } from './constants';
+import { BASE_URL, LOGIN_URL, ORDER_URL, PASSWORD_RESET_URL, REGISTER_URL } from './constants';
 
 function checkResponseIsOk(res) {
     if(res.ok) {
@@ -26,4 +26,47 @@ export const makeOrderRequest = (ingrArr) => {
     }).then(res =>{
         return checkResponseIsOk(res);
     })
+}
+
+export const loginRequest = (email, password) => {
+    return fetch(LOGIN_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            //Authorization: 'Bearer ' + document.cookie('token')
+        },
+        body: JSON.stringify({email, password})
+    })
+}
+
+export const registerRequest = (name, email, password) => {
+    return fetch(REGISTER_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({name, email, password})
+    })
+}
+
+export const requestToPasswordReset = (email) => {
+    return fetch(PASSWORD_RESET_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + document.cookie('token')
+        },
+        body: JSON.stringify({email})
+    })
+}
+
+export const passwordResetSend = (password, code) => {
+    return fetch(PASSWORD_RESET_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + document.cookie('token')
+        },
+        body: JSON.stringify({password, code})
+    }) 
 }
