@@ -4,7 +4,9 @@ import {
     Button, EmailInput, Input, PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../services/actions/user';
   
 
 function Register() {
@@ -25,6 +27,22 @@ function Register() {
     const onChangePassword = e => {
         setValuePassword(e.target.value)
     }
+
+    const isLoggedIn = useSelector(store => store.user.isLoggedIn);
+    const dispatch = useDispatch();
+
+    if (isLoggedIn) {
+        return (
+          <Navigate
+            to={'/'}
+          />
+        );
+    }
+
+    function handleSubmit() {
+        dispatch(register(name, valueEmail, valuePassword));
+    }
+
     return (
         <div className={styles.formpagecontent}>
         <h1 className="text text_type_main-medium">Регистрация</h1>
@@ -55,7 +73,7 @@ function Register() {
             name={'password'}
             extraClass="mt-6"
         />
-        <Button extraClass="mt-6" htmlType="button" type="primary" size="medium">Зарегистрироваться</Button>
+        <Button extraClass="mt-6" htmlType="button" type="primary" size="medium" onClick={handleSubmit}>Зарегистрироваться</Button>
         <div className="text text_type_main-default text_color_inactive mt-20">Уже зарегистрированы? <Link to="/login">Войти</Link></div>
         </div>
     )

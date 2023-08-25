@@ -9,4 +9,7 @@ export const LOGOUT_URL = 'https://norma.nomoreparties.space/api/auth/logout';
 export const REFRESH_TOKEN_URL = 'https://norma.nomoreparties.space/api/auth/token';
 
 
+export const USER_URL = 'https://norma.nomoreparties.space/api/auth/user'; // эндпоинт получения данных о пользователе.
+
+
 export const ESC_CODE = 'Escape';

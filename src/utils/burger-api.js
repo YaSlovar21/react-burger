@@ -1,4 +1,5 @@
-import { BASE_URL, LOGIN_URL, ORDER_URL, PASSWORD_RESET_URL, REGISTER_URL } from './constants';
+import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, REGISTER_URL, USER_URL } from './constants';
+import { getCookie } from './utils';
 
 function checkResponseIsOk(res) {
     if(res.ok) {
@@ -15,6 +16,17 @@ export const getInitialIngredients = () => {
         })
 }
 
+export const getUserInfo = () => {
+    return fetch(USER_URL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + getCookie('accessToken')
+        }
+    }).then(res => {
+        return checkResponseIsOk(res);
+    })
+}
 
 export const makeOrderRequest = (ingrArr) => {
     return fetch(ORDER_URL, {
@@ -33,9 +45,10 @@ export const loginRequest = (email, password) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            //Authorization: 'Bearer ' + document.cookie('token')
         },
         body: JSON.stringify({email, password})
+    }).then(res =>{
+        return checkResponseIsOk(res);
     })
 }
 
@@ -46,27 +59,47 @@ export const registerRequest = (name, email, password) => {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({name, email, password})
+    }).then(res =>{
+        return checkResponseIsOk(res);
     })
 }
+
+export const logoutRequest = (token) => {
+    return fetch(LOGOUT_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + getCookie('accessToken')
+        },
+        body: JSON.stringify({token})
+    }).then(res =>{
+        return checkResponseIsOk(res);
+    })
+}
+
 
 export const requestToPasswordReset = (email) => {
     return fetch(PASSWORD_RESET_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            Authorization: 'Bearer ' + document.cookie('token')
+            Authorization: 'Bearer ' + getCookie('accessToken')
         },
         body: JSON.stringify({email})
+    }).then(res =>{
+        return checkResponseIsOk(res);
     })
 }
 
-export const passwordResetSend = (password, code) => {
+export const passwordResetSend = (password, token) => {
     return fetch(PASSWORD_RESET_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            Authorization: 'Bearer ' + document.cookie('token')
+            Authorization: 'Bearer ' + getCookie('accessToken')
         },
-        body: JSON.stringify({password, code})
+        body: JSON.stringify({password, token})
+    }).then(res =>{
+        return checkResponseIsOk(res);
     }) 
 }

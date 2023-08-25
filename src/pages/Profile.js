@@ -4,19 +4,23 @@ import {
     Button, EmailInput, Input, PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
+import { useSelector } from 'react-redux';
   
 
 function Profile() {
+    const userName = useSelector(store => store.user.name);
+    const userEmail = useSelector(store => store.user.email);
+
     const inputRef = React.useRef(null);
     const onIconClick = () => {
         setTimeout(() => inputRef.current.focus(), 0)
         alert('Icon Click Callback')
     }
-    const [name, setName] = React.useState('Иван')
+    const [name, setName] = React.useState(userName)
     const onChangeName = e => {
         setName(e.target.value)
     }
-    const [valueEmail, setValueEmail] = React.useState('bob@example.com')
+    const [valueEmail, setValueEmail] = React.useState(userEmail)
     const onChangeEmail = e => {
         setValueEmail(e.target.value)
     }
