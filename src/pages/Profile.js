@@ -4,12 +4,14 @@ import {
     Button, EmailInput, Input, PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../services/actions/user';
   
 
 function Profile() {
     const userName = useSelector(store => store.user.name);
     const userEmail = useSelector(store => store.user.email);
+    const dispatch = useDispatch();
 
     const inputRef = React.useRef(null);
     const onIconClick = () => {
@@ -28,13 +30,19 @@ function Profile() {
     const onChangePassword = e => {
         setValuePassword(e.target.value)
     }
+
+
+    function handleLogout() {
+        dispatch(logout());
+    }
+
     return (
         <div className={styles.formpagecontent}> 
         <div className={`mr-15 ${styles.formpagecontent__menu}`}>
         <ul className={styles.navlist}>
             <li className={`text text_type_main-medium ${styles.navlist__item}`}>Профиль</li>
             <li className={`text text_type_main-medium ${styles.navlist__item}`}>История заказов</li>
-            <li className={`text text_type_main-medium ${styles.navlist__item}`}>Выход</li>
+            <li className={`text text_type_main-medium ${styles.navlist__item}`} onClick={handleLogout}>Выход</li>
         </ul>
         <p className="text text_type_main-default text_color_inactive mt-20">В этом разделе вы можете изменить свои персональные данные</p>
         </div>

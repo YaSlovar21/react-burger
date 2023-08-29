@@ -13,3 +13,15 @@ export const USER_URL = 'https://norma.nomoreparties.space/api/auth/user'; // э
 
 
 export const ESC_CODE = 'Escape';
+
+export const ROUTES = {
+    main: '/',
+    login: '/login',
+    register: '/register',
+    forgotPassword: '/forgot-password',
+    resetPassword: '/reset-password',
+    profile: '/profile',
+    ingredient: '/ingredients/:id'
+}
+          
+          

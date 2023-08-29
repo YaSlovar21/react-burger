@@ -7,6 +7,7 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../services/actions/user';
+import { ROUTES } from '../utils/constants';
   
 
 function Login() {
@@ -25,7 +26,7 @@ function Login() {
     if (isLoggedIn) {
         return (
           <Navigate
-            to={'/'}
+            to={ROUTES.main}
           />
         );
     }

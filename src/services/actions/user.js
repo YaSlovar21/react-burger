@@ -1,5 +1,5 @@
-import { getUserInfo, loginRequest, registerRequest } from "../../utils/burger-api";
-import { setCookie } from "../../utils/utils";
+import { getUserInfo, loginRequest, logoutRequest, registerRequest } from "../../utils/burger-api";
+import { setCookie, deleteCookie, getCookie } from "../../utils/utils";
 
 export const SET_USER= 'SET_USER';
 export const SET_USER_LOGOUT = 'SET_USER_LOGOUT';
@@ -79,7 +79,7 @@ export function login(email, password) {
     }
 }
 
-export function userData() {
+export function getUserData() {
     return function(dispatch) {
         getUserInfo()
             .then(res => {
@@ -93,14 +93,26 @@ export function userData() {
                     Promise.reject(`Произошла ошибка при получении данных пользователя с сервера. Ошибка ${res.status}`)
                 }
             })
+            .catch(e => console.log(e))
     }
 }
 
+
+
 export function logout() {
     return function(dispatch) {
-        dispatch({
-            type: LOGIN_REQUEST
-        });
-
+        logoutRequest(getCookie('refreshToken'))
+            .then(res => {
+                if (res.success) {
+                    dispatch({
+                        type: LOGOUT_SUCCESS
+                    });
+                    deleteCookie('accessToken');
+                    deleteCookie('refreshToken')
+                } else {
+                    Promise.reject(`Произошла ошибка при выходе из профиля. Ошибка ${res.status}`)
+                }
+            })
+            .catch(e => console.log(e));
     }
 }

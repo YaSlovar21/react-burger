@@ -4,7 +4,7 @@ import styles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import Login from '../../pages/Login';
 import HomePage from '../../pages/HomePage';
@@ -13,22 +13,60 @@ import ForgotPassword from '../../pages/ForgotPassword';
 import ResetPassword from '../../pages/ResetPassword';
 import Profile from '../../pages/Profile';
 import IngredientPage from '../../pages/IngredientPage';
+import { getUserData } from '../../services/actions/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { ROUTES } from '../../utils/constants';
+import ProtectedRoute from '../HOC/ProtectedRoute';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 
 
 function App() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  console.log(background);
+  console.log(location);
+
+  React.useEffect(() => {
+    dispatch(getUserData());
+  },[dispatch]);
+
+
+  //const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
+  const ingredientViewing = location.state && location.state.el;
+   
+  function handleModalClose() {
+      //dispatch({type: SOME_INGR_VIEWING_CLEAR});
+      navigate(background.pathname, {replace: false});
+  }
+
   return (
     <div className={styles.App}>
         <AppHeader />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/ingredients/:id" element={<IngredientPage />} />
+        <Routes location={background || location}>
+          <Route path={ROUTES.main} element={<HomePage />} />
+          {/* пускаем только не залогинненых пользвателей */}
+          <Route path={ROUTES.login} element={<Login />}/>
+          <Route path={ROUTES.register} element={<Register />} />
+          <Route path={ROUTES.forgotPassword}  element={<ForgotPassword />}  />
+          <Route path={ROUTES.resetPassword} element={<ResetPassword />}  />
+          {/* пускаем только залогиненных */}
+          <Route path={ROUTES.profile} element={<ProtectedRoute element={<Profile />} />} />
+          {/* Ингредиент */}
+          <Route path={ROUTES.ingredient} element={<IngredientPage />} />
         </Routes>
      
+        {background && ( <Routes>
+          <Route path={ROUTES.ingredient} element={
+            <Modal onEventCloseInModal={handleModalClose}>
+                <IngredientDetails el={ingredientViewing}/> 
+            </Modal>} />
+          
+        </Routes>)}
     </div>
   );
 }

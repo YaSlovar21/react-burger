@@ -12,9 +12,12 @@ import styles from './Ingredient.module.css';
 import { burgerPropTypes } from '../../utils/prop-types';
 import {  useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 
 function Ingredient({el, onIngredientClick }) {
+
+    const location = useLocation();
 
     function handleIngredientClick() {
         onIngredientClick(el);
@@ -32,14 +35,16 @@ function Ingredient({el, onIngredientClick }) {
     const ingredientsInConstructor= ingrs.concat(bunInConstr, bunInConstr);
 
     const count = useMemo(() => ingredientsInConstructor.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
-
+//{/*onClick={handleIngredientClick}*/}
     return (
-        <li ref={dragRef} className={`${styles.ingredient}`} onClick={handleIngredientClick}>
-            <Counter count={count} size="default" extraClass='m-1 ingredient__count' />
-            <img src={el.image} alt={el.name} />
-            <p className={`text text_type_digits-default mt-2 mb-2 ${styles.ingredient__price}`}><span className='mr-2'>{el.price}</span> <CurrencyIcon type="primary" /></p>
-            <h3 className={`text text_type_main-default ${styles.ingredient__name}`}>{el.name}</h3>
-        </li>
+        <Link  to={`/ingredients/${el._id}`} state={{ background: location, el: el }}  >
+            <li ref={dragRef} className={`${styles.ingredient}`} >
+                <Counter count={count} size="default" extraClass='m-1 ingredient__count' />
+                <img src={el.image} alt={el.name} />
+                <p className={`text text_type_digits-default mt-2 mb-2 ${styles.ingredient__price}`}><span className='mr-2'>{el.price}</span> <CurrencyIcon type="primary" /></p>
+                <h3 className={`text text_type_main-default ${styles.ingredient__name}`}>{el.name}</h3>
+            </li>
+        </Link>
     );
 }
 
