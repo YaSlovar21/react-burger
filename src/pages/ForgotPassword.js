@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 //На экране /forgot-password пользователь вводит адрес электронной почты и нажимает кнопку «Восстановить».
 
 function ForgotPassword() {
-    const [valueEmail, setValueEmail] = React.useState('password')
+    const [valueEmail, setValueEmail] = React.useState('')
     const onChangeEmail = e => {
         setValueEmail(e.target.value)
     }

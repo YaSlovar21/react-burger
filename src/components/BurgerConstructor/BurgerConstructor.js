@@ -19,8 +19,14 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientInConstructor from '../IngredientInConstructor/IngredientInConstructor';
 import { getOrderNumber, SET_ORDER_MODAL_POS } from '../../services/actions/send-order';
 import { ADD_ITEM_TO_CONSTRUCTOR } from '../../services/actions/constructor';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../utils/constants';
 
 function BurgerConstructor() {
+
+
+    const isLoggedIn = useSelector(store => store.user.isLoggedIn);
+    const navigate = useNavigate();
 
     const orderNubmer = useSelector(store => store.order.number);
     const isOrderViewing = useSelector(store => store.order.isOrderViewing);
@@ -55,12 +61,14 @@ function BurgerConstructor() {
 
     function handleOrderButtonClick() {
         //булка+ингрс+булка
-        const ingredientsArr = bun ? [].concat(bun, ingredients, bun) : [].concat(ingredients);
-        dispatch(getOrderNumber(ingredientsArr));
-        dispatch({
-            type: SET_ORDER_MODAL_POS,
-            pos: true
-        })
+        if (isLoggedIn) {
+            const ingredientsArr = bun ? [].concat(bun, ingredients, bun) : [].concat(ingredients);
+            dispatch(getOrderNumber(ingredientsArr));
+            dispatch({
+                type: SET_ORDER_MODAL_POS,
+                pos: true
+            })
+        } else navigate(ROUTES.login)
     }
 
     function handleModalClose() {

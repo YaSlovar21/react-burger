@@ -26,7 +26,7 @@ function Profile() {
     const onChangeEmail = e => {
         setValueEmail(e.target.value)
     }
-    const [valuePassword, setValuePassword] = React.useState('password')
+    const [valuePassword, setValuePassword] = React.useState('')
     const onChangePassword = e => {
         setValuePassword(e.target.value)
     }

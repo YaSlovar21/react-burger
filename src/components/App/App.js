@@ -20,11 +20,14 @@ import ProtectedRoute from '../HOC/ProtectedRoute';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
+import PageNotFound404 from '../../pages/PageNotFound404';
 
 
 function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
+  const fromForgotPassword = location.state && location.state.from;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -53,11 +56,15 @@ function App() {
           <Route path={ROUTES.login} element={<Login />}/>
           <Route path={ROUTES.register} element={<Register />} />
           <Route path={ROUTES.forgotPassword}  element={<ForgotPassword />}  />
-          <Route path={ROUTES.resetPassword} element={<ResetPassword />}  />
+          {
+            fromForgotPassword && 
+            <Route path={ROUTES.resetPassword} element={<ResetPassword />}  />
+          }
           {/* пускаем только залогиненных */}
           <Route path={ROUTES.profile} element={<ProtectedRoute element={<Profile />} />} />
           {/* Ингредиент */}
           <Route path={ROUTES.ingredient} element={<IngredientPage />} />
+          <Route path='*' element={<PageNotFound404 />} />
         </Routes>
      
         {background && ( <Routes>

@@ -37,14 +37,15 @@ function Ingredient({el, onIngredientClick }) {
     const count = useMemo(() => ingredientsInConstructor.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
 //{/*onClick={handleIngredientClick}*/}
     return (
-        <Link  to={`/ingredients/${el._id}`} state={{ background: location, el: el }}  >
-            <li ref={dragRef} className={`${styles.ingredient}`} >
-                <Counter count={count} size="default" extraClass='m-1 ingredient__count' />
-                <img src={el.image} alt={el.name} />
-                <p className={`text text_type_digits-default mt-2 mb-2 ${styles.ingredient__price}`}><span className='mr-2'>{el.price}</span> <CurrencyIcon type="primary" /></p>
-                <h3 className={`text text_type_main-default ${styles.ingredient__name}`}>{el.name}</h3>
+            <li ref={dragRef} >
+                <Link className={`${styles.ingredient}`}  to={`/ingredients/${el._id}`} state={{ background: location, el: el }}  >
+                    <Counter count={count} size="default" extraClass='m-1 ingredient__count' />
+                    <img src={el.image} alt={el.name} />
+                    <p className={`text text_type_digits-default mt-2 mb-2 ${styles.ingredient__price}`}><span className='mr-2'>{el.price}</span> <CurrencyIcon type="primary" /></p>
+                    <h3 className={`text text_type_main-default ${styles.ingredient__name}`}>{el.name}</h3>
+                </Link>
             </li>
-        </Link>
+        
     );
 }
 

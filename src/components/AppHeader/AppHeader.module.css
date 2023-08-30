@@ -17,6 +17,10 @@
     width: 100%;
 }
 
+.navlink {
+    text-decoration: none;
+}
+
 .navlist {
     padding: 0;
     list-style-type: none;

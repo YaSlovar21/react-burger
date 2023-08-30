@@ -1,4 +1,4 @@
-import { getUserInfo, loginRequest, logoutRequest, registerRequest } from "../../utils/burger-api";
+import { getUserInfo, loginRequest, logoutRequest, registerRequest, requestToPasswordReset } from "../../utils/burger-api";
 import { setCookie, deleteCookie, getCookie } from "../../utils/utils";
 
 export const SET_USER= 'SET_USER';
@@ -114,5 +114,16 @@ export function logout() {
                 }
             })
             .catch(e => console.log(e));
+    }
+}
+
+export function forgotPasswordForEmail(email) {
+    return function(dispatch) {
+        requestToPasswordReset(email)
+            .then(res => {
+                if (res.success) {
+                    
+                }
+            })
     }
 }

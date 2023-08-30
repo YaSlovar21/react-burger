@@ -15,15 +15,15 @@ function Register() {
         setTimeout(() => inputRef.current.focus(), 0)
         alert('Icon Click Callback')
     }
-    const [name, setName] = React.useState('Иван')
+    const [name, setName] = React.useState('')
     const onChangeName = e => {
         setName(e.target.value)
     }
-    const [valueEmail, setValueEmail] = React.useState('bob@example.com')
+    const [valueEmail, setValueEmail] = React.useState('')
     const onChangeEmail = e => {
         setValueEmail(e.target.value)
     }
-    const [valuePassword, setValuePassword] = React.useState('password')
+    const [valuePassword, setValuePassword] = React.useState('')
     const onChangePassword = e => {
         setValuePassword(e.target.value)
     }

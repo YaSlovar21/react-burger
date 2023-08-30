@@ -1,5 +1,5 @@
-import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, REGISTER_URL, USER_URL } from './constants';
-import { getCookie } from './utils';
+import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, REFRESH_TOKEN_URL, REGISTER_URL, USER_URL } from './constants';
+import { getCookie, setCookie } from './utils';
 
 function checkResponseIsOk(res) {
     if(res.ok) {
@@ -8,6 +8,43 @@ function checkResponseIsOk(res) {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 }
+export const refreshToken = () => {
+    return fetch(REFRESH_TOKEN_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        token: getCookie("refreshToken"),
+      }),
+    }).then(res => {
+        return checkResponseIsOk(res);
+    })
+  };
+  
+  export const fetchWithRefresh = async (url, options) => {
+    try {
+      const res = await fetch(url, options);
+      //return await checkResponseIsOk(res);
+      return res;
+    } catch (err) {
+      if (err.message === "jwt expired") {
+        const refreshData = await refreshToken(); //обновляем токен
+        if (!refreshData.success) {
+          return Promise.reject(refreshData);
+        }
+        setCookie("refreshToken", refreshData.refreshToken);
+        setCookie("accessToken", refreshData.accessToken);
+        options.headers.authorization = refreshData.accessToken;
+        const res = await fetch(url, options); //повторяем запрос
+        // return await checkResponseIsOk(res);
+        return res;
+      } else {
+        return Promise.reject(err);
+      }
+    }
+  };
+
 
 export const getInitialIngredients = () => {
     return fetch(BASE_URL)
@@ -17,7 +54,7 @@ export const getInitialIngredients = () => {
 }
 
 export const getUserInfo = () => {
-    return fetch(USER_URL, {
+    return fetchWithRefresh(USER_URL, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -79,7 +116,7 @@ export const logoutRequest = (token) => {
 
 
 export const requestToPasswordReset = (email) => {
-    return fetch(PASSWORD_RESET_URL, {
+    return fetchWithRefresh(PASSWORD_RESET_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -92,7 +129,7 @@ export const requestToPasswordReset = (email) => {
 }
 
 export const passwordResetSend = (password, token) => {
-    return fetch(PASSWORD_RESET_URL, {
+    return fetchWithRefresh(PASSWORD_RESET_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
