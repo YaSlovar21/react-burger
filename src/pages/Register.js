@@ -74,7 +74,7 @@ function Register() {
             extraClass="mt-6"
         />
         <Button extraClass="mt-6" htmlType="button" type="primary" size="medium" onClick={handleSubmit}>Зарегистрироваться</Button>
-        <div className="text text_type_main-default text_color_inactive mt-20">Уже зарегистрированы? <Link to="/login">Войти</Link></div>
+        <div className="text text_type_main-default text_color_inactive mt-20">Уже зарегистрированы? <Link className={styles.accent} to="/login">Войти</Link></div>
         </div>
     )
 }

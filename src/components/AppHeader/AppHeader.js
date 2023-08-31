@@ -10,28 +10,30 @@ import {
   
 
 import styles from './AppHeader.module.css';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
+
+
 
 function AppHeader() {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
         <ul className={styles.navlist}>
-          <Link to={ROUTES.main} className={`pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${styles.navlist__item}`}>
-            <BurgerIcon type="primary" />
-            <span className='ml-2 text'>Конструктор</span>
-          </Link>
-          <a className={`pl-5 pr-5 pb-4 pt-4 text text_type_main-default text_color_inactive ${styles.navlist__item}`} href="/#">
+          <NavLink to={ROUTES.main} className={({isActive}) => `pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${styles.navlist__item} ${isActive && styles.navlist__item_active}`}>
+            <BurgerIcon type="secondary" />
+            <span className='ml-2'>Конструктор</span>
+          </NavLink>
+          <NavLink to='/test' className={({isActive}) => `pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${styles.navlist__item} ${isActive && styles.navlist__item_active}`}>
             <ListIcon type="secondary" />
-            <span className='ml-2 text text_type_main-default text_color_inactive'>Лента заказов</span>
-          </a>
+            <span className='ml-2'>Лента заказов</span>
+          </NavLink>
         </ul>
         <Logo />
-        <a className={`pl-5 pr-5 pb-4 pt-4 ${styles.navlist__item}`} href="/#">
+        <NavLink to={ROUTES.profile} className={({isActive}) => `text text_type_main-default pl-5 pr-5 pb-4 pt-4 ${isActive && styles.navlist__item_active} ${styles.navlist__item}`}>
           <ProfileIcon type="secondary" />
-          <Link to={ROUTES.profile} className={styles.navlink}><span className='ml-2 text text_type_main-default text_color_inactive'>Личный кабинет</span></Link>
-        </a>
+          <span className={`ml-2`}>Личный кабинет</span>
+        </NavLink>
       </nav>
     </header>
   )

@@ -10,6 +10,10 @@
     max-width: 320px;
 }
 
+.form {
+    text-align: right;
+}
+
 .navlist {
     margin: 0;
     padding: 0;
@@ -20,4 +24,17 @@
     height: 64px;
     display: flex;
     align-items: center;
+}
+
+.navlink {
+    text-decoration: none;
+    color: var(--text-inactive-color);
+}
+
+.logout {
+    cursor: pointer;
+}
+
+.active {
+    color: #fff;
 }

@@ -26,17 +26,16 @@ import PageNotFound404 from '../../pages/PageNotFound404';
 function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
-  const fromForgotPassword = location.state && location.state.from;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(background);
-  console.log(location);
+  /*console.log(background);
+  console.log(location);*/
 
   React.useEffect(() => {
     dispatch(getUserData());
-  },[dispatch]);
+  }, [dispatch]);
 
 
   //const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
@@ -56,10 +55,7 @@ function App() {
           <Route path={ROUTES.login} element={<Login />}/>
           <Route path={ROUTES.register} element={<Register />} />
           <Route path={ROUTES.forgotPassword}  element={<ForgotPassword />}  />
-          {
-            fromForgotPassword && 
-            <Route path={ROUTES.resetPassword} element={<ResetPassword />}  />
-          }
+          <Route path={ROUTES.resetPassword} element={<ResetPassword />}  />
           {/* пускаем только залогиненных */}
           <Route path={ROUTES.profile} element={<ProtectedRoute element={<Profile />} />} />
           {/* Ингредиент */}

@@ -52,8 +52,8 @@ function Login() {
                 extraClass="mt-6"
             />
             <Button extraClass="mt-6" htmlType="button" type="primary" size="medium" onClick={handleSubmit}>Войти</Button>
-            <div className="text text_type_main-default text_color_inactive mt-20">Вы — новый пользователь? <Link to="/register">Зарегистрироваться</Link></div>
-            <div className="text text_type_main-default text_color_inactive mt-4">Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link></div>
+            <div className="text text_type_main-default text_color_inactive mt-20">Вы — новый пользователь? <Link to="/register"  className={styles.accent}>Зарегистрироваться</Link></div>
+            <div className="text text_type_main-default text_color_inactive mt-4">Забыли пароль? <Link to="/forgot-password"  className={styles.accent}>Восстановить пароль</Link></div>
         </div>
     )
 }

@@ -7,14 +7,16 @@ export const composeEnhancers =
 
 
 export function getCookie(name) {
-  const matches = document.cookie.match(
+  /*const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? decodeURIComponent(matches[1]) : undefined;*/
+  return localStorage.getItem(name);
+  
 }
 
 export function setCookie(name, value, props) {
-  props = props || {};
+  /*props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
     const d = new Date();
@@ -33,9 +35,11 @@ export function setCookie(name, value, props) {
       updatedCookie += '=' + propValue;
     }
   }
-  document.cookie = updatedCookie;
+  document.cookie = updatedCookie;*/
+  localStorage.setItem(name, value)
 }
 
 export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 });
+  //setCookie(name, null, { expires: -1 });
+  localStorage.clear();
 }

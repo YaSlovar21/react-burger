@@ -1,4 +1,4 @@
-import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, REFRESH_TOKEN_URL, REGISTER_URL, USER_URL } from './constants';
+import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, PASSWORD_RESET_WITH_CODE_URL, REFRESH_TOKEN_URL, REGISTER_URL, USER_URL } from './constants';
 import { getCookie, setCookie } from './utils';
 
 function checkResponseIsOk(res) {
@@ -17,7 +17,8 @@ export const refreshToken = () => {
       body: JSON.stringify({
         token: getCookie("refreshToken"),
       }),
-    }).then(res => {
+    })
+    .then(res => {
         return checkResponseIsOk(res);
     })
   };
@@ -25,23 +26,26 @@ export const refreshToken = () => {
   export const fetchWithRefresh = async (url, options) => {
     try {
       const res = await fetch(url, options);
-      //return await checkResponseIsOk(res);
-      return res;
+      return await checkResponseIsOk(res);
+      //return res;
     } catch (err) {
-      if (err.message === "jwt expired") {
+     // console.log(err.message);
+     // if (err.message === "jwt expired") {
         const refreshData = await refreshToken(); //обновляем токен
         if (!refreshData.success) {
+          console.log('Тут ошибка');
           return Promise.reject(refreshData);
-        }
+        } 
         setCookie("refreshToken", refreshData.refreshToken);
-        setCookie("accessToken", refreshData.accessToken);
-        options.headers.authorization = refreshData.accessToken;
+        setCookie("accessToken", refreshData.accessToken?.split('Bearer ')[1]);
+        options.headers.authorization = refreshData.accessToken?.split('Bearer ')[1];
+
         const res = await fetch(url, options); //повторяем запрос
-        // return await checkResponseIsOk(res);
-        return res;
-      } else {
-        return Promise.reject(err);
-      }
+        return await checkResponseIsOk(res);
+        //return res;
+      //} else {
+      //  return Promise.reject(err);
+     // }
     }
   };
 
@@ -60,20 +64,29 @@ export const getUserInfo = () => {
             'Content-Type': 'application/json;charset=utf-8',
             Authorization: 'Bearer ' + getCookie('accessToken')
         }
-    }).then(res => {
-        return checkResponseIsOk(res);
+    })//.then(res => {
+       // return checkResponseIsOk(res);
+   // })
+}
+
+export const updateUserInfo = (data) => {
+    return fetchWithRefresh(USER_URL, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + getCookie('accessToken')
+        },
+        body: JSON.stringify(data)
     })
 }
 
 export const makeOrderRequest = (ingrArr) => {
-    return fetch(ORDER_URL, {
+    return fetchWithRefresh(ORDER_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({ ingredients: ingrArr.map(item => item._id) })
-    }).then(res =>{
-        return checkResponseIsOk(res);
     })
 }
 
@@ -116,11 +129,10 @@ export const logoutRequest = (token) => {
 
 
 export const requestToPasswordReset = (email) => {
-    return fetchWithRefresh(PASSWORD_RESET_URL, {
+    return fetch(PASSWORD_RESET_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            Authorization: 'Bearer ' + getCookie('accessToken')
         },
         body: JSON.stringify({email})
     }).then(res =>{
@@ -129,11 +141,10 @@ export const requestToPasswordReset = (email) => {
 }
 
 export const passwordResetSend = (password, token) => {
-    return fetchWithRefresh(PASSWORD_RESET_URL, {
+    return fetch(PASSWORD_RESET_WITH_CODE_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            Authorization: 'Bearer ' + getCookie('accessToken')
         },
         body: JSON.stringify({password, token})
     }).then(res =>{
