@@ -16,11 +16,12 @@ import IngredientPage from '../../pages/IngredientPage';
 import { getUserData } from '../../services/actions/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { ROUTES } from '../../utils/constants';
-import ProtectedRoute from '../HOC/ProtectedRoute';
+import ProtectedRouteWithAuth from '../HOC/ProtectedRouteWithAuth';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 import PageNotFound404 from '../../pages/PageNotFound404';
+import ProtectedRouteFromAuth from '../HOC/ProtectedRouteFromAuth';
 
 
 function App() {
@@ -51,13 +52,14 @@ function App() {
         <AppHeader />
         <Routes location={background || location}>
           <Route path={ROUTES.main} element={<HomePage />} />
-          {/* пускаем только не залогинненых пользвателей */}
-          <Route path={ROUTES.login} element={<Login />}/>
-          <Route path={ROUTES.register} element={<Register />} />
-          <Route path={ROUTES.forgotPassword}  element={<ForgotPassword />}  />
-          <Route path={ROUTES.resetPassword} element={<ResetPassword />}  />
+          {/* не пускаем залогиненных пользователей */}
+          <Route path={ROUTES.login} element={<ProtectedRouteFromAuth element={<Login />} />} />
+          <Route path={ROUTES.register} element={<ProtectedRouteFromAuth element={<Register />} />} />
+          <Route path={ROUTES.forgotPassword} element={<ProtectedRouteFromAuth element={<ForgotPassword />} /> } />
+          <Route path={ROUTES.resetPassword} element={<ProtectedRouteFromAuth element={<ResetPassword />} />} />
+
           {/* пускаем только залогиненных */}
-          <Route path={ROUTES.profile} element={<ProtectedRoute element={<Profile />} />} />
+          <Route path={ROUTES.profile} element={<ProtectedRouteWithAuth element={<Profile />} />} />
           {/* Ингредиент */}
           <Route path={ROUTES.ingredient} element={<IngredientPage />} />
           <Route path='*' element={<PageNotFound404 />} />
@@ -68,7 +70,6 @@ function App() {
             <Modal onEventCloseInModal={handleModalClose}>
                 <IngredientDetails el={ingredientViewing}/> 
             </Modal>} />
-          
         </Routes>)}
     </div>
   );

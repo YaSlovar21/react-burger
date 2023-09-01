@@ -31,7 +31,8 @@ function Profile() {
         form.setValues({name: userName, email: userEmail, password: ''})
     }
 
-    function handleUpdateUser() {
+    function handleUpdateUser(evt) {
+        evt.preventDefault();
         dispatch(updateUserAction(form.values.name, form.values.email, form.values.password))
         form.setValues({
             ...form.values,
@@ -53,7 +54,7 @@ function Profile() {
         </ul>
         <p className="text text_type_main-default text_color_inactive mt-20">В этом разделе вы можете изменить свои персональные данные</p>
         </div>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleUpdateUser}>
             <Input
                 type={'text'}
                 placeholder={'Имя'}
@@ -86,7 +87,7 @@ function Profile() {
                 extraClass="mt-6"
             />
             { isDataChanged && (<><Button htmlType="button" type="secondary" size="small" extraClass="mt-4" onClick={handleResetForm}>Отмена</Button>
-            <Button htmlType="button" type="primary" size="small" extraClass="mt-4" onClick={handleUpdateUser}>Сохранить</Button></>)}
+            <Button htmlType="submit" type="primary" size="small" extraClass="mt-4">Сохранить</Button></>)}
         </form>
         </div>
     )
