@@ -1,0 +1,40 @@
+.formpagecontent {
+   
+    display: flex;
+    align-items: flex-start;
+    max-width: 1280px;
+    margin: 120px auto 0;
+}
+
+.formpagecontent__menu {
+    max-width: 320px;
+}
+
+.form {
+    text-align: right;
+}
+
+.navlist {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.navlist__item {
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.navlink {
+    text-decoration: none;
+    color: var(--text-inactive-color);
+}
+
+.logout {
+    cursor: pointer;
+}
+
+.active {
+    color: #fff;
+}

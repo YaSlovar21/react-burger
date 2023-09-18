@@ -42,7 +42,7 @@ function BurgerIngredients() {
         : setCurrent('main')
     }, [isBunsInView, isMainsInView, isSaucesInView])
 
-    const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
+    //const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
     
     function handleIngredientClick(el) {
         dispatch({
@@ -94,10 +94,10 @@ function BurgerIngredients() {
                     ))}
                 </ul>
             </div>
-            {ingredientViewing && (<Modal onEventCloseInModal={handleModalClose}>
+            {/*ingredientViewing && (<Modal onEventCloseInModal={handleModalClose}>
                 <IngredientDetails el={ingredientViewing}/> 
             </Modal>
-            )}
+            )*/}
     </div>
     )
 }
