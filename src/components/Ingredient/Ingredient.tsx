@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect,ReactElement  } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDrag } from "react-dnd";
@@ -13,9 +13,14 @@ import { burgerPropTypes } from '../../utils/prop-types';
 import {  useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { TIngredient } from '../../utils/ts-types';
 
+interface IIngrProps {
+    el: TIngredient;
+    onIngredientClick: (el: TIngredient) => any;
+}
 
-function Ingredient({el, onIngredientClick }) {
+const Ingredient: FC<IIngrProps> = ({el, onIngredientClick }) => {
 
     const location = useLocation();
 
@@ -26,16 +31,16 @@ function Ingredient({el, onIngredientClick }) {
     const [, dragRef] = useDrag({
         type: 'ingr', 
         item: el 
-        //{ id: el._id, wii: el.type }
+        
     });
 
-    const ingrs = useSelector(store => store.cart.ingrsInCart);
-    const bunInConstr = useSelector(store => store.cart.bun);
+    const ingrs: TIngredient[] = useSelector((store:any) => store.cart.ingrsInCart);
+    const bunInConstr: TIngredient = useSelector((store:any) => store.cart.bun);
 
-    const ingredientsInConstructor= ingrs.concat(bunInConstr, bunInConstr);
+    const ingredientsInConstructor: TIngredient[] = ingrs.concat(bunInConstr, bunInConstr);
 
     const count = useMemo(() => ingredientsInConstructor.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
-//{/*onClick={handleIngredientClick}*/}
+
     return (
             <li ref={dragRef} >
                 <Link className={`${styles.ingredient}`}  to={`/ingredients/${el._id}`} state={{ background: location, el: el }}  >
@@ -47,11 +52,11 @@ function Ingredient({el, onIngredientClick }) {
             </li>
         
     );
-}
-
+};
+/*
 Ingredient.propTypes = {
     el: burgerPropTypes.isRequired,
     onIngredientClick: PropTypes.func.isRequired,
-};
+};*/
 
 export default Ingredient;

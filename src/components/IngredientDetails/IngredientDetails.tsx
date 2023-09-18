@@ -1,12 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import styles from './IngredientDetails.module.css';
-import { burgerPropTypes } from '../../utils/prop-types';
+import { TIngredient } from '../../utils/ts-types';
 
-
-
-function IngredientDetails({el, extraClass}) {
+function IngredientDetails({el, extraClass}: {el: TIngredient, extraClass: string}) {
     return (
         el && <div className={`p-10 ${styles.wrapper} ${extraClass && styles.ingredient_place_page}`}>
             <h2 className={`text text text_type_main-large mt-4 ${!extraClass && styles.detailstitle}`} >Детали заказа</h2>
@@ -33,9 +30,5 @@ function IngredientDetails({el, extraClass}) {
         </div>
     );
 }
-
-IngredientDetails.propTypes = {
-    el: burgerPropTypes.isRequired,
-};
 
 export default IngredientDetails;
