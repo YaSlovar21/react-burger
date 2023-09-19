@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
 
@@ -15,12 +15,17 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
-const modalRoot = document.getElementById('react-modals');
+const modalRoot = document.getElementById('react-modals') as HTMLDivElement;
 
-function Modal({children, onEventCloseInModal}) {
+type TModalProps = {
+    children: ReactElement,
+    onEventCloseInModal: () => void 
+}
+
+const Modal:FC<TModalProps> = ({children, onEventCloseInModal}) => {
 
     React.useEffect(() =>{
-        const closeByEsc = (evt) => {
+        const closeByEsc = (evt: KeyboardEvent) => {
             if (evt.key === ESC_CODE) {
                 onEventCloseInModal();
             }
@@ -43,10 +48,10 @@ function Modal({children, onEventCloseInModal}) {
         , modalRoot
     )
 }
-
+/*
 Modal.propTypes = {
     children: PropTypes.element.isRequired,
     onEventCloseInModal:  PropTypes.func.isRequired,
-}
+}*/
 
 export default Modal;

@@ -1,9 +1,13 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 
-export function useForm(initialData) { 
+type TFormData = {
+    [key:string] : string
+}
+
+export function useForm(initialData:TFormData) { 
     const [values, setValues] = React.useState(initialData);
 
-    const handleInputChange = (evt) => {
+    const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
         setValues({
             ...values,
             [evt.target.name] : evt.target.value

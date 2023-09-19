@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import styles from './ResetPassword.module.css';
 
 import {
@@ -22,9 +22,9 @@ function ResetPassword() {
         token: ''
     });
 
-    function handleSubmit(evt) {
+    function handleSubmit(evt: FormEvent) {
         evt.preventDefault();
-        dispatch(resetPasswordWithCode(form.values.password, form.values.token));
+        dispatch<any>(resetPasswordWithCode(form.values.password, form.values.token));
         navigate(ROUTES.login);
     }
 

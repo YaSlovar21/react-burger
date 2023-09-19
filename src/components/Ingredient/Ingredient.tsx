@@ -17,7 +17,7 @@ import { TIngredient } from '../../utils/ts-types';
 
 interface IIngrProps {
     el: TIngredient;
-    onIngredientClick: (el: TIngredient) => any;
+    onIngredientClick: (el: TIngredient) => void;
 }
 
 const Ingredient: FC<IIngrProps> = ({el, onIngredientClick }) => {

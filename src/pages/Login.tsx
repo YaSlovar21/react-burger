@@ -3,7 +3,7 @@ import styles from './Login.module.css';
 import {
     Button, EmailInput, PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { ChangeEvent, FormEvent } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../services/actions/user';
@@ -12,26 +12,17 @@ import { ROUTES } from '../utils/constants';
 
 function Login() {
     const [valueEmail, setValueEmail] = React.useState('')
-    const onChangeEmail = e => {
+    const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setValueEmail(e.target.value)
     }
     const [valuePassword, setValuePassword] = React.useState('')
-    const onChangePassword = e => {
+    const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setValuePassword(e.target.value)
     }
 
-    const isLoggedIn = useSelector(store => store.user.isLoggedIn);
-    const dispatch = useDispatch();
+    const dispatch:any = useDispatch();
 
-    /*if (isLoggedIn) {
-        return (
-          <Navigate
-            to={ROUTES.main}
-          />
-        );
-    }*/
-
-    function handleSubmit(evt) {
+    function handleSubmit(evt: FormEvent) {
         evt.preventDefault();
         dispatch(login(valueEmail, valuePassword));
     }

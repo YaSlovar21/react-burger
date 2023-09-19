@@ -1,5 +1,3 @@
-import AppHeader from "../components/AppHeader/AppHeader"
-
 
 import styles from './PageNotFound404.module.css';
 

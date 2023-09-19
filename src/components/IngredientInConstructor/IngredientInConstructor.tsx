@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import PropTypes from 'prop-types';
 
 import {
     ConstructorElement,
@@ -15,7 +14,7 @@ import styles from './IngredientInConstructor.module.css';
 import { TIngredientInConstructor } from '../../utils/ts-types';
 
 type TDndIngr = TIngredientInConstructor & {
-    index: any;
+    index: number;
 }
 
 function IngredientInConstructor({name, price, image, idtd, index}: TIngredientInConstructor) {

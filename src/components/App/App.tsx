@@ -35,7 +35,7 @@ function App() {
   console.log(location);*/
 
   React.useEffect(() => {
-    dispatch(getUserData());
+    dispatch<any>(getUserData());
   }, [dispatch]);
 
 
