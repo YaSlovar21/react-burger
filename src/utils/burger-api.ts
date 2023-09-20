@@ -2,7 +2,7 @@ import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, PASSWOR
 import { TIngredient } from './ts-types';
 import { getCookie, setCookie } from './utils';
 
-function checkResponseIsOk(res:any) {
+function checkResponseIsOk(res:Response) {
     if(res.ok) {
         return res.json()
     } else {
@@ -24,14 +24,13 @@ export const refreshToken = () => {
     })
   };
   
-  export const fetchWithRefresh = async (url :string, options:any) => {
+  export const fetchWithRefresh = async (url :string, options?:RequestInit) => {
     try {
       const res = await fetch(url, options);
       return await checkResponseIsOk(res);
-      //return res;
+
     } catch (err) {
-     // console.log(err.message);
-     // if (err.message === "jwt expired") {
+
         const refreshData = await refreshToken(); //обновляем токен
         if (!refreshData.success) {
           console.log('Тут ошибка');
@@ -39,14 +38,12 @@ export const refreshToken = () => {
         } 
         setCookie("refreshToken", refreshData.refreshToken);
         setCookie("accessToken", refreshData.accessToken?.split('Bearer ')[1]);
-        options.headers.authorization = refreshData.accessToken?.split('Bearer ')[1];
-
+        if (options?.headers) {
+            (options.headers as { [key: string]: string }).authorization =
+                refreshData.accessToken?.split('Bearer ')[1];
+        }
         const res = await fetch(url, options); //повторяем запрос
         return await checkResponseIsOk(res);
-        //return res;
-      //} else {
-      //  return Promise.reject(err);
-     // }
     }
   };
 

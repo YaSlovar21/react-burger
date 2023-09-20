@@ -12,7 +12,6 @@ import React, { useMemo } from 'react';
 import { getIngregients } from '../services/actions/get-ingredients';
 
 function IngredientPage() {
-
     const { id } = useParams();
    
     const ingregients = useSelector((store: any) => store.ingredients.items);
@@ -22,11 +21,9 @@ function IngredientPage() {
     React.useEffect(()=> {
       dispatch(getIngregients());
     }, [dispatch]);
-    
 
-    console.log(ingregients);
     const ingr = useMemo(()=> ingregients.find((item: TIngredient) => item._id === id), [id, ingregients]);
-    console.log(ingr);
+
     return (
         ingr && <div className={styles.formpagecontent}>
             <IngredientDetails el={ingr} extraClass="ingredient_place_page" />

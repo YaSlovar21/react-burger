@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, PropsWithChildren, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
 
@@ -18,11 +18,10 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 const modalRoot = document.getElementById('react-modals') as HTMLDivElement;
 
 type TModalProps = {
-    children: ReactElement,
     onEventCloseInModal: () => void 
 }
 
-const Modal:FC<TModalProps> = ({children, onEventCloseInModal}) => {
+const Modal:FC<PropsWithChildren<TModalProps>> = ({children, onEventCloseInModal}) => {
 
     React.useEffect(() =>{
         const closeByEsc = (evt: KeyboardEvent) => {
