@@ -22,6 +22,8 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 import PageNotFound404 from '../../pages/PageNotFound404';
 import ProtectedRouteFromAuth from '../HOC/ProtectedRouteFromAuth';
+import OrderFeedPage from '../../pages/OrderFeedPage';
+import ProfileOrders from '../../pages/ProfileOrders';
 
 
 function App() {
@@ -57,9 +59,10 @@ function App() {
           <Route path={ROUTES.register} element={<ProtectedRouteFromAuth element={<Register />} />} />
           <Route path={ROUTES.forgotPassword} element={<ProtectedRouteFromAuth element={<ForgotPassword />} /> } />
           <Route path={ROUTES.resetPassword} element={<ProtectedRouteFromAuth element={<ResetPassword />} />} />
-
+          <Route path={ROUTES.feed} element={<OrderFeedPage />} />
           {/* пускаем только залогиненных */}
           <Route path={ROUTES.profile} element={<ProtectedRouteWithAuth element={<Profile />} />} />
+          <Route path={ROUTES.profileOrders} element={<ProtectedRouteWithAuth element={<ProfileOrders />} />} />
           {/* Ингредиент */}
           <Route path={ROUTES.ingredient} element={<IngredientPage />} />
           <Route path='*' element={<PageNotFound404 />} />
