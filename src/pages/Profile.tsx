@@ -3,7 +3,7 @@ import styles from './Profile.module.css';
 import {
     Button, EmailInput, Input, PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, updateUserAction } from '../services/actions/user';
 import { useForm } from '../utils/useForm';
@@ -12,16 +12,17 @@ import { ROUTES } from '../utils/constants';
   
 
 function Profile() {
-    const userName = useSelector(store => store.user.name);
-    const userEmail = useSelector(store => store.user.email);
-    const dispatch = useDispatch();
+    const userName = useSelector((store:any) => store.user.name);
+    const userEmail = useSelector((store:any) => store.user.email);
+    //Redux в данном спринте не трогаем
+    const dispatch:any = useDispatch();
 
     const [isNameDisabled, setIsNameDisabled] = React.useState(true);
-    const inputNameRef = React.useRef(null);
+    const inputNameRef = React.useRef<HTMLInputElement>(null);
  
     const onIconNameClick = () => {
         setIsNameDisabled(false);
-        setTimeout(() => inputNameRef.current.focus(), 0);
+        setTimeout(() => inputNameRef.current?.focus(), 0);
     }
 
     const form = useForm({name: userName, email: userEmail, password: ''});
@@ -31,7 +32,7 @@ function Profile() {
         form.setValues({name: userName, email: userEmail, password: ''})
     }
 
-    function handleUpdateUser(evt) {
+    function handleUpdateUser(evt: FormEvent) {
         evt.preventDefault();
         dispatch(updateUserAction(form.values.name, form.values.email, form.values.password))
         form.setValues({
@@ -74,7 +75,6 @@ function Profile() {
                 onChange={form.handleInputChange}
                 value={form.values.email}
                 name={'email'}
-                icon="EditIcon"
                 extraClass="mt-6"
                 placeholder="E-mail"
                 isIcon={true}

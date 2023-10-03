@@ -1,7 +1,7 @@
 import styles from './ForgotPassword.module.css';
 
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, {ChangeEvent, FormEvent} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { forgotPasswordByEmail } from '../services/actions/user';
@@ -14,13 +14,14 @@ function ForgotPassword() {
     const navigate = useNavigate();
 
     const [valueEmail, setValueEmail] = React.useState('')
-    const onChangeEmail = e => {
+    const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setValueEmail(e.target.value)
     }
 
-    function handleSubmit(evt) {
+    function handleSubmit(evt:FormEvent) {
         evt.preventDefault();
-        dispatch(forgotPasswordByEmail(valueEmail));
+        //Redux в данном спринте не трогаем
+        dispatch<any>(forgotPasswordByEmail(valueEmail));
         navigate(ROUTES.resetPassword);
     }
 

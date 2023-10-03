@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import PropTypes from 'prop-types';
 
 import {
     ConstructorElement,
@@ -12,10 +11,16 @@ import { DELETE_ITEM_FROM_CONSTRUCTOR, MOVE_INGREDIENTS } from "../../services/a
 
 import styles from './IngredientInConstructor.module.css';
 
-function IngredientInConstructor({name, price, image, idtd, index}) {
+import { TIngredientInConstructor } from '../../utils/ts-types';
+
+type TDndIngr = TIngredientInConstructor & {
+    index: number;
+}
+
+function IngredientInConstructor({name, price, image, idtd, index}: TIngredientInConstructor) {
     const dispatch = useDispatch();
-    const ref = useRef(null)
-    function handleDelete(id) {
+    const ref = useRef<HTMLLIElement>(null)
+    function handleDelete(id:string) {
         dispatch({
             type: DELETE_ITEM_FROM_CONSTRUCTOR,
             idtd: id
@@ -36,7 +41,7 @@ function IngredientInConstructor({name, price, image, idtd, index}) {
 
     const [, dropRef] = useDrop({
         accept: 'idragging',
-        hover(itemToPush, monitor) {
+        hover(itemToPush: TDndIngr, monitor) {
             const hoverIndex = index;
             const dragIndex = itemToPush.index;
             if (dragIndex === hoverIndex) {
@@ -44,9 +49,9 @@ function IngredientInConstructor({name, price, image, idtd, index}) {
             }
             
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+            const hoverMiddleY = hoverBoundingRect ? (hoverBoundingRect?.bottom - hoverBoundingRect?.top) / 2 : 0;
             const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverClientY = clientOffset && hoverBoundingRect ? clientOffset.y - hoverBoundingRect.top : 0;
         
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
@@ -78,14 +83,14 @@ function IngredientInConstructor({name, price, image, idtd, index}) {
         </li>
     );
 }
-
+/*
 IngredientInConstructor.propTypes = {
         name: PropTypes.string, 
         price: PropTypes.number, 
         image: PropTypes.string, 
         idtd: PropTypes.string, 
         index: PropTypes.number
-};
+};*/
 
 
 export default IngredientInConstructor;

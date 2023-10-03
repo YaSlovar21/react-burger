@@ -3,27 +3,27 @@ import styles from './Register.module.css';
 import {
     Button, EmailInput, Input, PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { ChangeEvent, FormEvent } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../services/actions/user';
   
 
 function Register() {
-    const inputRef = React.useRef(null)
+    const inputRef = React.useRef<HTMLInputElement>(null)
     const onIconClick = () => {
-        setTimeout(() => inputRef.current.focus(), 0)
+        setTimeout(() => inputRef.current?.focus(), 0)
     }
     const [name, setName] = React.useState('')
-    const onChangeName = e => {
+    const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
     }
     const [valueEmail, setValueEmail] = React.useState('')
-    const onChangeEmail = e => {
+    const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setValueEmail(e.target.value)
     }
     const [valuePassword, setValuePassword] = React.useState('')
-    const onChangePassword = e => {
+    const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setValuePassword(e.target.value)
     }
 
@@ -32,9 +32,9 @@ function Register() {
 
     
 
-    function handleSubmit(evt) {
+    function handleSubmit(evt: FormEvent) {
         evt.preventDefault();
-        dispatch(register(name, valueEmail, valuePassword));
+        dispatch<any>(register(name, valueEmail, valuePassword));
     }
 
     return (

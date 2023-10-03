@@ -15,10 +15,11 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 
 import { getIngregients } from '../../services/actions/get-ingredients';
+import { TIngredient } from '../../utils/ts-types';
 
 function BurgerIngredients() {
-    const ingredients = useSelector(store => store.ingredients.items);
-    const dispatch = useDispatch();
+    const ingredients = useSelector((store:any) => store.ingredients.items);
+    const dispatch:any = useDispatch();
     
     React.useEffect(()=> {
       dispatch(getIngregients());
@@ -26,9 +27,10 @@ function BurgerIngredients() {
     
     const [current, setCurrent] = React.useState('bun');
 
-    const buns = useMemo(()=> ingredients.filter((item) => item.type === 'bun'), [ingredients]);
-    const mains = useMemo(()=>ingredients.filter((item) => item.type === 'main'), [ingredients]);
-    const sauces = useMemo(()=>ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
+    const buns: TIngredient[] = useMemo(()=> ingredients.filter((item: TIngredient) => item.type === 'bun'), [ingredients]);
+    const mains: TIngredient[] = useMemo(()=>ingredients.filter((item: TIngredient) => item.type === 'main'), [ingredients]);
+    const sauces: TIngredient[] = useMemo(()=>ingredients.filter((item: TIngredient) => item.type === 'sauce'), [ingredients]);
+
     const containerRef = useRef(null);
     const [refBuns, isBunsInView] = useInView({threshold: 0.49, root: containerRef.current});
     const [sauceRef, isSaucesInView] = useInView({threshold: 0.51, root: containerRef.current});
@@ -44,7 +46,7 @@ function BurgerIngredients() {
 
     //const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
     
-    function handleIngredientClick(el) {
+    function handleIngredientClick(el: TIngredient) {
         dispatch({
             type: SOME_INGR_VIEWING,
             ingredient: el

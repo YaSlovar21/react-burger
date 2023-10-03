@@ -10,7 +10,7 @@ import { rootReducer } from './services/reducers';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
-import { composeEnhancers } from './utils/utils';
+import { composeEnhancers } from './utils/redux-compose';
 
 const enhancer = composeEnhancers(
     applyMiddleware(thunk),

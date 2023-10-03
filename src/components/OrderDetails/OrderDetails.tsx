@@ -5,7 +5,7 @@ import styles from './OrderDetails.module.css';
 
 import successLogo from '../../images/done.svg';
 
-function OrderDetails({orderNubmer}) {
+function OrderDetails({orderNubmer}: {orderNubmer: number}) {
     return (
         <div className={`p-30 ${styles.wrapper}`}>
          <h2 className={`text text_type_digits-large ${styles.zakaznumber}`}>{orderNubmer}</h2>
@@ -16,9 +16,9 @@ function OrderDetails({orderNubmer}) {
         </div>
     );
 }
-
+/*
 OrderDetails.propTypes = {
     orderNubmer: PropTypes.number,
 }
-
+*/
 export default OrderDetails;

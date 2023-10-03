@@ -21,23 +21,24 @@ import { getOrderNumber, SET_ORDER_MODAL_POS } from '../../services/actions/send
 import { ADD_ITEM_TO_CONSTRUCTOR } from '../../services/actions/constructor';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
+import { TIngredient } from '../../utils/ts-types';
 
 function BurgerConstructor() {
 
 
-    const isLoggedIn = useSelector(store => store.user.isLoggedIn);
+    const isLoggedIn = useSelector((store:any) => store.user.isLoggedIn);
     const navigate = useNavigate();
 
-    const orderNubmer = useSelector(store => store.order.number);
-    const isOrderViewing = useSelector(store => store.order.isOrderViewing);
-    const bun = useSelector(store => store.cart.bun);
-    const ingredients = useSelector(store => store.cart.ingrsInCart);
+    const orderNubmer = useSelector((store:any)  => store.order.number);
+    const isOrderViewing = useSelector((store:any)  => store.order.isOrderViewing);
+    const bun = useSelector((store:any)  => store.cart.bun);
+    const ingredients = useSelector((store:any)  => store.cart.ingrsInCart);
     
-    const totalPrice = (bun && bun.price * 2) + ingredients.reduce((acc, item)=> acc+=item?.price, 0);
+    const totalPrice: number = (bun && bun.price * 2) + ingredients.reduce((acc:number, item:TIngredient)=> acc+=item?.price, 0);
 
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
-    function addCustomID(obj) {
+    function addCustomID(obj: object) {
         const id = uuidv4();
         return {
             ...obj,
@@ -45,9 +46,10 @@ function BurgerConstructor() {
         }
     }
 
+    //ловим ингредиент и добавляем его в корзину со спец id
     const [{isOver, itemType},dropTargetRef] =useDrop({
         accept: 'ingr',
-        drop(item) {
+        drop(item: TIngredient) {
             dispatch({
                 type: ADD_ITEM_TO_CONSTRUCTOR,
                 item1:  addCustomID(item)
@@ -91,8 +93,8 @@ function BurgerConstructor() {
             {ingredients.length === 0 && <div className={`${isOver && itemType.type !== 'bun' && styles.bunhovered} constructor-element ml-8 constructor-element__text`}>Перетяните сюда элементы</div>}
             <ul className={styles.zakaz}>
                 {
-                    !!ingredients.length && ingredients.map((item, index) => (
-                        <IngredientInConstructor key={`${item.id}-${index}`} {...item} index={index} />
+                    !!ingredients.length && ingredients.map((item: TIngredient & {idtd: string}, index: number) => (
+                        <IngredientInConstructor key={`${item._id}-${index}`} {...item} index={index} />
                     ))
                 }
             </ul>
@@ -108,7 +110,7 @@ function BurgerConstructor() {
             <div className={`pt-10 ${styles.total}`}>
                 <div className={`mr-10 ${styles.price}`}>
                     <span className='text text_type_digits-medium mr-2'>{totalPrice}</span>
-                    <CurrencyIcon />
+                    <CurrencyIcon type="primary"/>
                 </div>
                 <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
                     Оформить заказ
