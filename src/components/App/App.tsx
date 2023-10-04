@@ -24,6 +24,9 @@ import PageNotFound404 from '../../pages/PageNotFound404';
 import ProtectedRouteFromAuth from '../HOC/ProtectedRouteFromAuth';
 import OrderFeedPage from '../../pages/OrderFeedPage';
 import ProfileOrders from '../../pages/ProfileOrders';
+import OrderItemCard from '../OrderItemCard/OrderItemCard';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderItemDetails from '../OrderItemDetails/OrderItemDetails';
 
 
 function App() {
@@ -73,6 +76,16 @@ function App() {
             <Modal onEventCloseInModal={handleModalClose}>
                 <IngredientDetails el={ingredientViewing}/> 
             </Modal>} />
+          <Route path={ROUTES.profileOrderItem} element={
+            <Modal onEventCloseInModal={handleModalClose}>
+              <OrderItemDetails el={ingredientViewing} />
+            </Modal>
+          } />
+          <Route path={ROUTES.feedOrderItem} element={
+            <Modal onEventCloseInModal={handleModalClose}>
+              <OrderItemDetails el={ingredientViewing} />
+            </Modal>
+          } />
         </Routes>)}
     </div>
   );

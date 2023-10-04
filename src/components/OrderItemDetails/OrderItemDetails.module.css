@@ -1,0 +1,40 @@
+.ingrlist {
+    height: 376px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style-type: none;
+}
+
+
+
+.ingrlist::-webkit-scrollbar {
+    width: 8px;
+    background: var(--interface-input, #2F2F37);
+}
+
+.ingrlist::-webkit-scrollbar-thumb {
+    border: 3px solid var(--text-dark-grey-secondary-text, #8585AD);
+    background: var(--text-dark-grey-secondary-text, #8585AD);
+    width: 8px;
+}
+
+.ingrlist__item {
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.iconingr__img {
+    width: 64px;
+    height: 64px;
+    border-radius: 100px;
+    border: 2px solid transparent;
+    background: 
+        linear-gradient(#1f1f1f 0 0) padding-box, /*this is your grey background*/
+        linear-gradient(to right, #801AB2, #4C4CFF) border-box;
+    object-fit: contain;
+    object-position: center;
+}

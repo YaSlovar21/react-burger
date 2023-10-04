@@ -22,9 +22,10 @@ export const ROUTES = {
     resetPassword: '/reset-password',
     profile: '/profile',
     profileOrders: '/profile/orders',
+    profileOrderItem: '/profile/orders/:id',
     ingredient: '/ingredients/:id',
-    feed: '/feed'
-    
+    feed: '/feed',
+    feedOrderItem: '/feed/:id'
 }
           
           

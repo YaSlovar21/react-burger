@@ -11,9 +11,11 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import { composeEnhancers } from './utils/redux-compose';
+import { socketMiddleware } from './services/middlewares/socketMiddleware';
 
 const enhancer = composeEnhancers(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk), 
+    applyMiddleware(socketMiddleware('wss://norma.nomoreparties.space/orders/all')),
 );
 
 const store = createStore(rootReducer, enhancer);
