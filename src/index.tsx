@@ -16,6 +16,7 @@ import { socketMiddleware } from './services/middlewares/socketMiddleware';
 const enhancer = composeEnhancers(
     applyMiddleware(thunk), 
     applyMiddleware(socketMiddleware('wss://norma.nomoreparties.space/orders/all')),
+    applyMiddleware(socketMiddleware('wss://norma.nomoreparties.space/orders', true))
 );
 
 const store = createStore(rootReducer, enhancer);

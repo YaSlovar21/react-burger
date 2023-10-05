@@ -22,6 +22,17 @@ export type TIngredientInConstructor = {
     index: number;
 };
 
+export type TOrder = {
+    ingredients: string[];
+    _id: string;
+    name: string;
+    status: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+}
+  
+
 export type TUser = {
     name: string;
     email: string;

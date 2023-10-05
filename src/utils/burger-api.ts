@@ -82,7 +82,8 @@ export const makeOrderRequest = (ingrArr: TIngredient[]) => {
     return fetchWithRefresh(ORDER_URL, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            Authorization: 'Bearer ' + getCookie('accessToken')
         },
         body: JSON.stringify({ ingredients: ingrArr.map(item => item._id) })
     })
