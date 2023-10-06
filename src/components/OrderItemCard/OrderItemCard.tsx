@@ -1,7 +1,7 @@
 import  { FC  } from 'react';
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from 'react-redux';
-import { TIngredient, TOrder } from '../../utils/ts-types';
+import { useSelector } from '../../services/hooks';
+import { TIngredient, TOrder } from '../../services/types/data';
 
 import styles from './OrderItemCard.module.css';
 import { Link, useLocation } from 'react-router-dom';
@@ -11,17 +11,16 @@ import { Link, useLocation } from 'react-router-dom';
 const OrderItemCard: FC<{el:TOrder, page?:string}> = ({el, page}) => {
     const location = useLocation();
 
-    const ingredientsAll: TIngredient[] = useSelector((store:any) => store.ingredients.items);
-    console.log(ingredientsAll);
-
+    const ingredientsAll: TIngredient[] = useSelector(store => store.ingredients.items);
+    
     const date = () => {
         return <FormattedDate date={new Date(el.createdAt)} />
-      };
+    };
 
     const ingredients = el.ingredients.map((i:string) => {
        return ingredientsAll.find(item => item._id === i);
     })
-    console.log(ingredients);
+    
     return (
         <li className={`p-6 mb-4 ${styles.card}`} key={el._id}>
             <Link  className={`p-6 mb-4 ${styles.card__link}`} to={`${el._id}`} state={{ background: location, el: el }}  >

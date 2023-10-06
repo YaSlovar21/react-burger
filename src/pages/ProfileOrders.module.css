@@ -9,11 +9,11 @@
 .orders {
     box-sizing: border-box;
     padding-right: 10px;
-    flex-basis: 608px;
+    flex-basis: 844px;
     margin-right: 60px;
     overflow-x: hidden;
     overflow-y: auto;
-    height: calc(100vh - 290px);
+    height: calc(100vh - 200px);
     list-style-type: none;
 }
 

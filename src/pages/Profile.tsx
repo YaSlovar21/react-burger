@@ -5,7 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import React, { FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { logout, updateUserAction } from '../services/actions/user';
 import { useForm } from '../utils/useForm';
 import { NavLink } from 'react-router-dom';
@@ -14,10 +14,10 @@ import ProfileNav from '../components/ProfileNav/ProfileNav';
   
 
 function Profile() {
-    const userName = useSelector((store:any) => store.user.name);
-    const userEmail = useSelector((store:any) => store.user.email);
+    const userName = useSelector((store) => store.user.name);
+    const userEmail = useSelector((store) => store.user.email);
     //Redux в данном спринте не трогаем
-    const dispatch:any = useDispatch();
+    const dispatch = useDispatch();
 
     const [isNameDisabled, setIsNameDisabled] = React.useState(true);
     const inputNameRef = React.useRef<HTMLInputElement>(null);

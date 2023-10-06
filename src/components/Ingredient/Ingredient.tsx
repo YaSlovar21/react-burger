@@ -1,5 +1,4 @@
 import React, { FC, useEffect,ReactElement  } from 'react';
-import PropTypes from 'prop-types';
 
 import { useDrag } from "react-dnd";
 
@@ -9,11 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './Ingredient.module.css';
-import { burgerPropTypes } from '../../utils/prop-types';
-import {  useSelector } from 'react-redux';
+import {  useSelector } from '../../services/hooks';
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { TIngredient } from '../../utils/ts-types';
+import { TIngredient } from '../../services/types/data';
 
 interface IIngrProps {
     el: TIngredient;

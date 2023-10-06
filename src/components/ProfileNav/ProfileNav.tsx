@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 import { NavLink } from "react-router-dom";
 import { ROUTES } from "../../utils/constants";
 import styles from './ProfileNav.module.css';
@@ -9,7 +9,7 @@ function ProfileNav() {
     function handleLogout() {
         dispatch(logout());
     }
-    const dispatch:any = useDispatch();
+    const dispatch = useDispatch();
 
     return (
         <div className={`mr-15 ${styles.menu}`}>

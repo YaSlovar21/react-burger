@@ -14,10 +14,7 @@ export type TIngredient = {
     __v: number;
 };
 
-export type TIngredientInConstructor = {
-    name: string; 
-    price: number; 
-    image: string; 
+export type TIngredientInConstructor = TIngredient & {
     idtd: string; 
     index: number;
 };

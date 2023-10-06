@@ -14,7 +14,7 @@ import ResetPassword from '../../pages/ResetPassword';
 import Profile from '../../pages/Profile';
 import IngredientPage from '../../pages/IngredientPage';
 import { getUserData } from '../../services/actions/user';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { ROUTES } from '../../utils/constants';
 import ProtectedRouteWithAuth from '../HOC/ProtectedRouteWithAuth';
 import Modal from '../Modal/Modal';
@@ -41,7 +41,7 @@ function App() {
   console.log(location);*/
 
   React.useEffect(() => {
-    dispatch<any>(getUserData());
+    dispatch(getUserData());
   }, [dispatch]);
 
 

@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../utils/useForm';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../services/hooks';
 import { resetPasswordWithCode } from '../services/actions/user';
 import { ROUTES } from '../utils/constants';
 

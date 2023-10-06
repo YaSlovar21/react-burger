@@ -1,10 +1,13 @@
 import {
   ADD_ITEM_TO_CONSTRUCTOR,
   DELETE_ITEM_FROM_CONSTRUCTOR,
+  IConsrtuctorMoveItems,
   MOVE_INGREDIENTS,
+  TConstructorActions,
 } from "../actions/constructor";
+import { TIngredient, TIngredientInConstructor } from "../types/data";
 
-function removeDraggedElSplice(array, action) {
+function removeDraggedElSplice(array:TIngredientInConstructor[], action:IConsrtuctorMoveItems) {
   let prevArray = array.slice();
   let newArray = array.slice();
   newArray.splice(action.dragIndex, 1);
@@ -12,12 +15,17 @@ function removeDraggedElSplice(array, action) {
   return newArray;
 }
 
-const initialState = {
-  bun: null,
+type TConstructorState = {
+  bun: TIngredientInConstructor | undefined;
+  ingrsInCart: TIngredientInConstructor[]
+}
+
+const initialState:TConstructorState = {
+  bun: undefined,
   ingrsInCart: [],
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action: TConstructorActions):TConstructorState => {
   switch (action.type) {
     case ADD_ITEM_TO_CONSTRUCTOR: {
       if (action.item1.type !== "bun") {

@@ -10,7 +10,6 @@ import { wsOrdersAuthReducer } from "./wsOrdersAuthReducer";
 
 export const rootReducer = combineReducers({
     user: userReducer,
-    
     ingredients: getIngredientReducer,
     cart: constructorReducer,
     order: sendOrderReducer,

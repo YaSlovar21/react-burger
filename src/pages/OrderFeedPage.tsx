@@ -1,12 +1,9 @@
-
 import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from '../services/hooks';
 import OrderItemCard from '../components/OrderItemCard/OrderItemCard';
 import { getIngregients } from '../services/actions/get-ingredients';
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../services/actions/wsActions';
-import { ordersAllWs } from '../utils/constants';
-import { TOrder } from '../utils/ts-types';
+import { TOrder } from '../services/types/data';
 import styles from './OrderFeedPage.module.css';
 
 
@@ -17,7 +14,7 @@ function OrderFeedPage() {
    
     useEffect(() => {
         dispatch({type: WS_CONNECTION_START});
-        dispatch<any>(getIngregients());
+        dispatch(getIngregients());
         return () => {
             dispatch({type: WS_CONNECTION_CLOSED});
         }
@@ -34,7 +31,7 @@ function OrderFeedPage() {
                 <div className={styles.orders}>
                     {ordersAll.orders.map((item:TOrder) => {
                         return (
-                            <OrderItemCard page='lk' el={item} />
+                            <OrderItemCard el={item} />
                         );
                     })}
                 </div>
@@ -43,7 +40,7 @@ function OrderFeedPage() {
                         <h2 className='text text_type_main-medium'>Готовы</h2>
                         <ul className={`mt-6 ${styles.numbers} ${styles.numbers_ready}`}>
                             {ready.slice(0,10).map((i:TOrder) => (
-                                <li className='text text_type_digits-default' key={i._id}>{i.number}</li>
+                                <li className='text text_type_digits-default' key={`ready-${i._id}`}>{i.number}</li>
                             ))}  
                         </ul>
                     </div>
@@ -51,7 +48,7 @@ function OrderFeedPage() {
                         <h2 className='text text_type_main-medium'>В работе</h2>
                         <ul className={`mt-6 ${styles.numbers}`}>
                             {prepairing.slice(0,10).map((i:TOrder) => (
-                                <li className='text text_type_digits-default' key={i._id}>{i.number}</li>
+                                <li className='text text_type_digits-default' key={`prepairing-${i._id}`}>{i.number}</li>
                             ))}     
                         </ul>
                     </div>

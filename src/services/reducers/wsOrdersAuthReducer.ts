@@ -1,4 +1,6 @@
+import { TOrder } from "../types/data";
 import {
+  TWSAuthActions,
   WS_AUTH_CONNECTION_CLOSED,
   WS_AUTH_CONNECTION_ERROR,
   WS_AUTH_CONNECTION_START,
@@ -6,14 +8,26 @@ import {
   WS_AUTH_GET_MESSAGE,
 } from "../actions/wsAuthActions";
 
-const initialState = {
+type TWSAuthState = {
+  wsConnected: boolean;
+  wsConnecting: boolean;
+  orders?: {
+    success: boolean,
+    orders: TOrder[] | string, //сервер строку "Invalid Token вписывает в это поле"
+    totalToday: number,
+    total: number
+  };
+  error: string | undefined
+}
+
+const initialState: TWSAuthState = {
   wsConnected: false,
   wsConnecting: false,
-  orders: null,
+  orders: undefined,
   error: "",
 };
 
-export const wsOrdersAuthReducer = (state = initialState, action) => {
+export const wsOrdersAuthReducer = (state = initialState, action: TWSAuthActions):TWSAuthState => {
   switch (action.type) {
     case WS_AUTH_CONNECTION_START: {
       return {

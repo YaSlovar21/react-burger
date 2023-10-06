@@ -5,7 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { ChangeEvent, FormEvent } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { login } from '../services/actions/user';
 import { ROUTES } from '../utils/constants';
   
@@ -20,7 +20,7 @@ function Login() {
         setValuePassword(e.target.value)
     }
 
-    const dispatch:any = useDispatch();
+    const dispatch = useDispatch();
 
     function handleSubmit(evt: FormEvent) {
         evt.preventDefault();

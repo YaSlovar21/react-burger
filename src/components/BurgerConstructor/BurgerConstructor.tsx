@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { v4 as uuidv4 } from 'uuid'
 
 import {
@@ -21,24 +21,24 @@ import { getOrderNumber, SET_ORDER_MODAL_POS } from '../../services/actions/send
 import { ADD_ITEM_TO_CONSTRUCTOR } from '../../services/actions/constructor';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
-import { TIngredient } from '../../utils/ts-types';
+import { TIngredient, TIngredientInConstructor } from '../../services/types/data';
 
 function BurgerConstructor() {
 
 
-    const isLoggedIn = useSelector((store:any) => store.user.isLoggedIn);
+    const isLoggedIn = useSelector(store => store.user.isLoggedIn);
     const navigate = useNavigate();
 
-    const orderNubmer = useSelector((store:any)  => store.order.number);
-    const isOrderViewing = useSelector((store:any)  => store.order.isOrderViewing);
-    const bun = useSelector((store:any)  => store.cart.bun);
-    const ingredients = useSelector((store:any)  => store.cart.ingrsInCart);
+    const orderNubmer = useSelector(store  => store.order.number);
+    const isOrderViewing = useSelector(store  => store.order.isOrderViewing);
+    const bun = useSelector(store  => store.cart.bun);
+    const ingredients = useSelector(store  => store.cart.ingrsInCart);
     
-    const totalPrice: number = (bun && bun.price * 2) + ingredients.reduce((acc:number, item:TIngredient)=> acc+=item?.price, 0);
+    const totalPrice: number = (bun ? bun.price * 2 : 0) + ingredients.reduce((acc:number, item:TIngredientInConstructor)=> acc+=item?.price, 0);
 
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
-    function addCustomID(obj: object) {
+    function addCustomID(obj: TIngredientInConstructor) {
         const id = uuidv4();
         return {
             ...obj,
@@ -49,7 +49,7 @@ function BurgerConstructor() {
     //ловим ингредиент и добавляем его в корзину со спец id
     const [{isOver, itemType},dropTargetRef] =useDrop({
         accept: 'ingr',
-        drop(item: TIngredient) {
+        drop(item: TIngredientInConstructor) {
             dispatch({
                 type: ADD_ITEM_TO_CONSTRUCTOR,
                 item1:  addCustomID(item)
@@ -64,7 +64,7 @@ function BurgerConstructor() {
     function handleOrderButtonClick() {
         //булка+ингрс+булка
         if (isLoggedIn) {
-            const ingredientsArr = bun ? [].concat(bun, ingredients, bun) : [].concat(ingredients);
+            const ingredientsArr: TIngredientInConstructor[] = bun ? [...[bun], ...ingredients, ...[bun]] : [...ingredients] ;
             dispatch(getOrderNumber(ingredientsArr));
             dispatch({
                 type: SET_ORDER_MODAL_POS,

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './IngredientDetails.module.css';
-import { TIngredient } from '../../utils/ts-types';
+import { TIngredient } from '../../services/types/data';
 
 function IngredientDetails({el, extraClass}: {el: TIngredient, extraClass?: string}) {
     return (

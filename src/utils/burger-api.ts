@@ -1,5 +1,5 @@
 import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, PASSWORD_RESET_WITH_CODE_URL, REFRESH_TOKEN_URL, REGISTER_URL, USER_URL } from './constants';
-import { TIngredient } from './ts-types';
+import { TIngredient, TIngredientInConstructor } from '../services/types/data';
 import { getCookie, setCookie } from './utils';
 
 function checkResponseIsOk(res:Response) {
@@ -78,7 +78,7 @@ export const updateUserInfo = (data: {name?: string, email?: string, password?: 
     })
 }
 
-export const makeOrderRequest = (ingrArr: TIngredient[]) => {
+export const makeOrderRequest = (ingrArr: TIngredientInConstructor[]) => {
     return fetchWithRefresh(ORDER_URL, {
         method: 'POST',
         headers: {
