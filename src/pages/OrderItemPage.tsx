@@ -19,7 +19,11 @@ function OrderItemPage() {
     //Redux в данном спринте не трогаем
     const dispatch = useDispatch();
     React.useEffect(() => {
-        dispatch({type: WS_CONNECTION_START});
+        dispatch({
+            type: WS_CONNECTION_START,
+            url: 'wss://norma.nomoreparties.space/orders/all',
+            isPrivate: false
+        });
         return () => {
             dispatch({type: WS_CONNECTION_CLOSED});
         }
