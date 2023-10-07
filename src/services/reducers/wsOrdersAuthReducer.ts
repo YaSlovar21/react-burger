@@ -13,7 +13,7 @@ type TWSAuthState = {
   wsConnecting: boolean;
   orders?: {
     success: boolean,
-    orders: TOrder[] | string, //сервер строку "Invalid Token вписывает в это поле"
+    orders: TOrder[] , //сервер строку "Invalid Token вписывает в это поле"
     totalToday: number,
     total: number
   };
@@ -45,7 +45,7 @@ export const wsOrdersAuthReducer = (state = initialState, action: TWSAuthActions
     case WS_AUTH_CONNECTION_ERROR: {
       return {
         ...state,
-        error: action.error,
+        error: action.payload,
       };
     }
     case WS_AUTH_CONNECTION_CLOSED: {

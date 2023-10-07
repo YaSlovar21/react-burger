@@ -8,7 +8,7 @@ import { TWSActions } from "../actions/wsActions";
 import { TWSAuthActions } from "../actions/wsAuthActions";
 import { store } from "../store";
 
-type TApplicationActions = TWSActions
+export type TApplicationActions = TWSActions
     | TWSAuthActions
     | TConstructorActions
     | TGetIngredientsActions

@@ -4,17 +4,24 @@ import {
   REGISTER_USER_SUCCESS,
   RESET_PASSWORD_SUCCESS,
   SET_USER,
+  TUserActions,
 } from "../actions/user";
 
-const initialState = {
+type TUserState = {
+  name: string | null;
+  email: string | null;
+  isLoggedIn: boolean;
+  isPasswordReseted: boolean;
+}
+
+const initialState:TUserState = {
   name: null,
   email: null,
   isLoggedIn: false,
-
   isPasswordReseted: false,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action:TUserActions):TUserState => {
   switch (action.type) {
     case LOGIN_SUCCESS: {
       return {

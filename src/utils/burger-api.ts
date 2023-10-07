@@ -1,4 +1,4 @@
-import { BASE_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, PASSWORD_RESET_WITH_CODE_URL, REFRESH_TOKEN_URL, REGISTER_URL, USER_URL } from './constants';
+import { BASE_URL, INGRS_URL, LOGIN_URL, LOGOUT_URL, ORDER_URL, PASSWORD_RESET_URL, PASSWORD_RESET_WITH_CODE_URL, REFRESH_TOKEN_URL, REGISTER_URL, USER_URL } from './constants';
 import { TIngredient, TIngredientInConstructor } from '../services/types/data';
 import { getCookie, setCookie } from './utils';
 
@@ -10,7 +10,7 @@ function checkResponseIsOk(res:Response) {
     }
 }
 export const refreshToken = () => {
-    return fetch(REFRESH_TOKEN_URL, {
+    return fetch(`${BASE_URL}${REFRESH_TOKEN_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -49,14 +49,14 @@ export const refreshToken = () => {
 
 
 export const getInitialIngredients = () => {
-    return fetch(BASE_URL)
+    return fetch(`${BASE_URL}${INGRS_URL}`)
         .then(res => {
             return checkResponseIsOk(res);
         })
 }
 
 export const getUserInfo = () => {
-    return fetchWithRefresh(USER_URL, {
+    return fetchWithRefresh(`${BASE_URL}${USER_URL}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -68,7 +68,7 @@ export const getUserInfo = () => {
 }
 
 export const updateUserInfo = (data: {name?: string, email?: string, password?: string}) => {
-    return fetchWithRefresh(USER_URL, {
+    return fetchWithRefresh(`${BASE_URL}${USER_URL}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -79,7 +79,7 @@ export const updateUserInfo = (data: {name?: string, email?: string, password?: 
 }
 
 export const makeOrderRequest = (ingrArr: TIngredientInConstructor[]) => {
-    return fetchWithRefresh(ORDER_URL, {
+    return fetchWithRefresh(`${BASE_URL}${ORDER_URL}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -90,7 +90,7 @@ export const makeOrderRequest = (ingrArr: TIngredientInConstructor[]) => {
 }
 
 export const loginRequest = (email: string, password: string) => {
-    return fetch(LOGIN_URL, {
+    return fetch(`${BASE_URL}${LOGIN_URL}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -102,7 +102,7 @@ export const loginRequest = (email: string, password: string) => {
 }
 
 export const registerRequest = (name: string, email: string, password: string) => {
-    return fetch(REGISTER_URL, {
+    return fetch(`${BASE_URL}${REGISTER_URL}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -114,7 +114,7 @@ export const registerRequest = (name: string, email: string, password: string) =
 }
 
 export const logoutRequest = (token: string) => {
-    return fetch(LOGOUT_URL, {
+    return fetch(`${BASE_URL}${LOGOUT_URL}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -128,7 +128,7 @@ export const logoutRequest = (token: string) => {
 
 
 export const requestToPasswordReset = (email: string) => {
-    return fetch(PASSWORD_RESET_URL, {
+    return fetch(`${BASE_URL}${PASSWORD_RESET_URL}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -140,7 +140,7 @@ export const requestToPasswordReset = (email: string) => {
 }
 
 export const passwordResetSend = (password: string, token: string) => {
-    return fetch(PASSWORD_RESET_WITH_CODE_URL, {
+    return fetch(`${BASE_URL}${PASSWORD_RESET_WITH_CODE_URL}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',

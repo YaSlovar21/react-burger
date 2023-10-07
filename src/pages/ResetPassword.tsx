@@ -24,7 +24,7 @@ function ResetPassword() {
 
     function handleSubmit(evt: FormEvent) {
         evt.preventDefault();
-        dispatch<any>(resetPasswordWithCode(form.values.password, form.values.token));
+        dispatch(resetPasswordWithCode(form.values.password, form.values.token));
         navigate(ROUTES.login);
     }
 

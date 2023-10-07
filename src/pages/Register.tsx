@@ -34,7 +34,7 @@ function Register() {
 
     function handleSubmit(evt: FormEvent) {
         evt.preventDefault();
-        dispatch<any>(register(name, valueEmail, valuePassword));
+        dispatch(register(name, valueEmail, valuePassword));
     }
 
     return (

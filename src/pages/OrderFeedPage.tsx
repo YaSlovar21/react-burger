@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from '../services/hooks';
 import OrderItemCard from '../components/OrderItemCard/OrderItemCard';
 import { getIngregients } from '../services/actions/get-ingredients';
@@ -10,22 +10,30 @@ import styles from './OrderFeedPage.module.css';
 function OrderFeedPage() {
     const dispatch = useDispatch();
 
-    const ordersAll = useSelector((store:any) => store.ordersFeedAll.orders);
+    const ordersAll = useSelector((store) => store.ordersFeedAll.orders);
    
     useEffect(() => {
-        dispatch({type: WS_CONNECTION_START});
+        dispatch({
+            type: WS_CONNECTION_START,
+            url: 'wss://norma.nomoreparties.space/orders/all',
+            isPrivate: false
+        });
         dispatch(getIngregients());
         return () => {
             dispatch({type: WS_CONNECTION_CLOSED});
         }
     }, [dispatch]);
 
+    React.useEffect(()=> {
+        dispatch(getIngregients());
+      }, [dispatch]);
 
     const prepairing = useMemo(()=> ordersAll?.orders.filter((order: TOrder) => order.status !== 'done'), [ordersAll]);
     const ready = useMemo(() => ordersAll?.orders.filter((order: TOrder) => order.status === 'done'), [ordersAll] )
 
+    if (ordersAll) {
     return (
-        ordersAll && <>
+      <>
             <h1 className={`text text_type_main-large mt-10 mb-5 ${styles.pagetitle}`}>Лента заказов</h1>
             <div className={styles.container}>
                 <div className={styles.orders}>
@@ -39,7 +47,7 @@ function OrderFeedPage() {
                     <div>
                         <h2 className='text text_type_main-medium'>Готовы</h2>
                         <ul className={`mt-6 ${styles.numbers} ${styles.numbers_ready}`}>
-                            {ready.slice(0,10).map((i:TOrder) => (
+                            {ready?.slice(0,10).map((i:TOrder) => (
                                 <li className='text text_type_digits-default' key={`ready-${i._id}`}>{i.number}</li>
                             ))}  
                         </ul>
@@ -47,7 +55,7 @@ function OrderFeedPage() {
                     <div>
                         <h2 className='text text_type_main-medium'>В работе</h2>
                         <ul className={`mt-6 ${styles.numbers}`}>
-                            {prepairing.slice(0,10).map((i:TOrder) => (
+                            {prepairing?.slice(0,10).map((i:TOrder) => (
                                 <li className='text text_type_digits-default' key={`prepairing-${i._id}`}>{i.number}</li>
                             ))}     
                         </ul>
@@ -63,7 +71,11 @@ function OrderFeedPage() {
                 </div>
             </div>
         </>
-    );
+    )} else {
+        return (
+            <></>
+        )
+    };
 }
 
 export default OrderFeedPage;

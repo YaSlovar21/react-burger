@@ -13,31 +13,39 @@ function ProfileOrders() {
     
     const dispatch = useDispatch();
 
-    const ordersAll = useSelector((store:any) => store.ordersOfUser.orders);
+    const ordersAll = useSelector((store) => store.ordersOfUser.orders);
     React.useEffect(() => {
 
-        dispatch({type: WS_AUTH_CONNECTION_START, secure: true});
+        dispatch({
+            type: WS_AUTH_CONNECTION_START,
+            url: 'wss://norma.nomoreparties.space/orders',
+            isPrivate: true
+        });
         dispatch(getIngregients());
         return () => {
-            dispatch({type: WS_AUTH_CONNECTION_CLOSED, secure: true});
+            dispatch({type: WS_AUTH_CONNECTION_CLOSED});
         }
     }, [dispatch]);
-
+    if(ordersAll && ordersAll.success) {
     return (
-         ordersAll && ordersAll.success && <div className={styles.formpagecontent}> 
+         <div className={styles.formpagecontent}> 
         
             {/* меню */}
             <ProfileNav />
             <div className={styles.orders}>
-                    {ordersAll.orders.map((item:TOrder) => {
+                    {ordersAll.orders.reverse().map((item:TOrder) => {
                         return (
-                            <OrderItemCard el={item} page='lk' />
+                            <OrderItemCard key={`card-${item._id}`} el={item} page='lk' />
                         );
                     })}
             </div>
 
         </div>
-    )
+    )} else {
+        return (
+            <></>
+        )
+    }
 }
 
 export default ProfileOrders;

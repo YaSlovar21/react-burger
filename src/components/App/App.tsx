@@ -28,6 +28,7 @@ import OrderItemCard from '../OrderItemCard/OrderItemCard';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import OrderItemDetails from '../OrderItemDetails/OrderItemDetails';
 import OrderItemPage from '../../pages/OrderItemPage';
+import { getIngregients } from '../../services/actions/get-ingredients';
 
 
 function App() {
@@ -44,10 +45,13 @@ function App() {
     dispatch(getUserData());
   }, [dispatch]);
 
-
+  React.useEffect(()=> {
+    dispatch(getIngregients());
+  }, [dispatch]);
+  
   //const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
   const ingredientViewing = location.state && location.state.el;
-   
+  console.log(ingredientViewing)
   function handleModalClose() {
       //dispatch({type: SOME_INGR_VIEWING_CLEAR});
       navigate(background.pathname, {replace: false});

@@ -33,7 +33,7 @@ const OrderItemCard: FC<{el:TOrder, page?:string}> = ({el, page}) => {
                 <ul className={styles.iconlist}>
                     {ingredients.slice(0,6).map((item, index) => {
                         return (
-                            <li className={styles.iconingr} style={{right: `${index*16}px`, zIndex: `${10-index}`}} key={item?._id}>
+                            <li className={styles.iconingr} style={{right: `${index*16}px`, zIndex: `${10-index}`}} key={`${index}-${item?._id}`}>
                                 {index===5 && ingredients.length !== index+1 && <span className={`text text_type_main-default ${styles.iconingr__overlay}`}>+{ingredients.length - 5}</span>}
                                 <img className={styles.iconingr__img} src={item?.image} alt={item?.name} />
                             </li>

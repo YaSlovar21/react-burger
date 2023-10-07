@@ -32,10 +32,10 @@ const Ingredient: FC<IIngrProps> = ({el, onIngredientClick }) => {
         
     });
 
-    const ingrs: TIngredient[] = useSelector((store:any) => store.cart.ingrsInCart);
-    const bunInConstr: TIngredient = useSelector((store:any) => store.cart.bun);
+    const ingrs: TIngredient[] = useSelector((store) => store.cart.ingrsInCart);
+    const bunInConstr = useSelector((store) => store.cart.bun);
 
-    const ingredientsInConstructor: TIngredient[] = ingrs.concat(bunInConstr, bunInConstr);
+    const ingredientsInConstructor = [...[bunInConstr], ...ingrs, ...[bunInConstr]];
 
     const count = useMemo(() => ingredientsInConstructor.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
 

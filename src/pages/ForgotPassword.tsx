@@ -21,7 +21,7 @@ function ForgotPassword() {
     function handleSubmit(evt:FormEvent) {
         evt.preventDefault();
         //Redux в данном спринте не трогаем
-        dispatch<any>(forgotPasswordByEmail(valueEmail));
+        dispatch(forgotPasswordByEmail(valueEmail));
         navigate(ROUTES.resetPassword);
     }
 

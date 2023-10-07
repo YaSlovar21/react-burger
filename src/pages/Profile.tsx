@@ -27,11 +27,11 @@ function Profile() {
         setTimeout(() => inputNameRef.current?.focus(), 0);
     }
 
-    const form = useForm({name: userName, email: userEmail, password: ''});
+    const form = useForm({name: userName ?? '', email: userEmail ?? '', password: ''});
     const isDataChanged = userName !== form.values.name || userEmail !== form.values.email || !!form.values.password;
 
     function handleResetForm() {
-        form.setValues({name: userName, email: userEmail, password: ''})
+        form.setValues({name: userName ?? '', email: userEmail ?? '', password: ''})
     }
 
     function handleUpdateUser(evt: FormEvent) {
