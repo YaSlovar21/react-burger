@@ -1,5 +1,4 @@
 import React, { FC, PropsWithChildren, ReactElement } from 'react';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
 
 import styles from './Modal.module.css';

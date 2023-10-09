@@ -51,10 +51,5 @@ const Ingredient: FC<IIngrProps> = ({el, onIngredientClick }) => {
         
     );
 };
-/*
-Ingredient.propTypes = {
-    el: burgerPropTypes.isRequired,
-    onIngredientClick: PropTypes.func.isRequired,
-};*/
 
 export default Ingredient;

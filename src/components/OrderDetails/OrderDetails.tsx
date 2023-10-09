@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import styles from './OrderDetails.module.css';
 
@@ -16,9 +15,6 @@ function OrderDetails({orderNubmer}: {orderNubmer: number}) {
         </div>
     );
 }
-/*
-OrderDetails.propTypes = {
-    orderNubmer: PropTypes.number,
-}
-*/
+
+
 export default OrderDetails;

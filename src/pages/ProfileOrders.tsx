@@ -5,7 +5,6 @@ import ProfileNav from "../components/ProfileNav/ProfileNav";
 import { ordersAllWs } from "../utils/constants";
 import styles from './ProfileOrders.module.css';
 
-import { getIngregients } from "../services/actions/get-ingredients";
 import { TOrder } from "../services/types/data";
 import { WS_AUTH_CONNECTION_CLOSED, WS_AUTH_CONNECTION_START } from "../services/actions/wsAuthActions";
 
@@ -21,7 +20,6 @@ function ProfileOrders() {
             url: 'wss://norma.nomoreparties.space/orders',
             isPrivate: true
         });
-        dispatch(getIngregients());
         return () => {
             dispatch({type: WS_AUTH_CONNECTION_CLOSED});
         }

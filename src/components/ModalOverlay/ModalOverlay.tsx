@@ -1,5 +1,4 @@
 import React, { Children, FC } from 'react';
-import PropTypes from 'prop-types';
 
 import styles from './ModalOverlay.module.css';
 
@@ -14,9 +13,5 @@ const ModalOverlay:FC<TModalOverlay> = ({onOverlayClick}) => {
     )
 }
 
-/*
-ModalOverlay.propTypes = {
-    onOverlayClick: PropTypes.func.isRequired,
-};*/
 
 export default ModalOverlay;

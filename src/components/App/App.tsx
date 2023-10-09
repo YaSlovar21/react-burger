@@ -29,6 +29,7 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import OrderItemDetails from '../OrderItemDetails/OrderItemDetails';
 import OrderItemPage from '../../pages/OrderItemPage';
 import { getIngregients } from '../../services/actions/get-ingredients';
+import OrderUserItemPage from '../../pages/OrderUserItemPage';
 
 
 function App() {
@@ -73,7 +74,7 @@ function App() {
           <Route path={ROUTES.profileOrders} element={<ProtectedRouteWithAuth element={<ProfileOrders />} />} />
           {/* ингредиента или заказа */}
           <Route path={ROUTES.ingredient} element={<IngredientPage />} />
-          <Route path={ROUTES.profileOrderItem} element={<ProtectedRouteWithAuth element={<OrderItemPage />} />} />
+          <Route path={ROUTES.profileOrderItem} element={<ProtectedRouteWithAuth element={<OrderUserItemPage />} />} />
           <Route path={ROUTES.feedOrderItem} element={<OrderItemPage />} />
 
           <Route path='*' element={<PageNotFound404 />} />

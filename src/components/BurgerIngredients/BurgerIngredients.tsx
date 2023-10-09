@@ -12,16 +12,13 @@ import Ingredient from '../Ingredient/Ingredient';
 
 import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 
-import { getIngregients } from '../../services/actions/get-ingredients';
 import { TIngredient } from '../../services/types/data';
 
 function BurgerIngredients() {
     const ingredients = useSelector(store => store.ingredients.items);
     const dispatch = useDispatch();
     
-    React.useEffect(()=> {
-      dispatch(getIngregients());
-    }, [dispatch]);
+    
     
     const [current, setCurrent] = React.useState('bun');
 

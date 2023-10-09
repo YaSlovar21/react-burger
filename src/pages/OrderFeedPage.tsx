@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from '../services/hooks';
 import OrderItemCard from '../components/OrderItemCard/OrderItemCard';
-import { getIngregients } from '../services/actions/get-ingredients';
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../services/actions/wsActions';
 import { TOrder } from '../services/types/data';
 import styles from './OrderFeedPage.module.css';
@@ -18,15 +17,13 @@ function OrderFeedPage() {
             url: 'wss://norma.nomoreparties.space/orders/all',
             isPrivate: false
         });
-        dispatch(getIngregients());
+        
         return () => {
             dispatch({type: WS_CONNECTION_CLOSED});
         }
     }, [dispatch]);
 
-    React.useEffect(()=> {
-        dispatch(getIngregients());
-      }, [dispatch]);
+
 
     const prepairing = useMemo(()=> ordersAll?.orders.filter((order: TOrder) => order.status !== 'done'), [ordersAll]);
     const ready = useMemo(() => ordersAll?.orders.filter((order: TOrder) => order.status === 'done'), [ordersAll] )
@@ -39,7 +36,7 @@ function OrderFeedPage() {
                 <div className={styles.orders}>
                     {ordersAll.orders.map((item:TOrder) => {
                         return (
-                            <OrderItemCard el={item} />
+                            <OrderItemCard key={item._id} el={item} />
                         );
                     })}
                 </div>

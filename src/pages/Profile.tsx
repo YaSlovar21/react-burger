@@ -8,8 +8,6 @@ import React, { FormEvent } from 'react';
 import { useDispatch, useSelector } from '../services/hooks';
 import { logout, updateUserAction } from '../services/actions/user';
 import { useForm } from '../utils/useForm';
-import { NavLink } from 'react-router-dom';
-import { ROUTES } from '../utils/constants';
 import ProfileNav from '../components/ProfileNav/ProfileNav';
   
 

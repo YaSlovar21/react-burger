@@ -92,9 +92,9 @@ function BurgerConstructor() {
             /> ) : (<div className={`${isOver && itemType.type === 'bun' && styles.bunhovered} constructor-element constructor-element_pos_top ml-8 mb-4 constructor-element__text`}>Перетяните булку</div>)}
             {ingredients.length === 0 && <div className={`${isOver && itemType.type !== 'bun' && styles.bunhovered} constructor-element ml-8 constructor-element__text`}>Перетяните сюда элементы</div>}
             <ul className={styles.zakaz}>
-                {
+                {   /* idtd - ключик который генерируется во время сброса */
                     !!ingredients.length && ingredients.map((item: TIngredient & {idtd: string}, index: number) => (
-                        <IngredientInConstructor key={`${item._id}-${index}`} {...item} index={index} />
+                        <IngredientInConstructor key={item.idtd} {...item} index={index} />
                     ))
                 }
             </ul>

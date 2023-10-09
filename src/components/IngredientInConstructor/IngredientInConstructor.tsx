@@ -71,7 +71,7 @@ function IngredientInConstructor({name, price, image, idtd, index}: TIngredientI
     })
     dragRef(dropRef(ref));
     return (
-        <li ref={ref}>
+        <li ref={ref} >
             <DragIcon type="primary" />
             <ConstructorElement
                 text={name}
@@ -83,14 +83,7 @@ function IngredientInConstructor({name, price, image, idtd, index}: TIngredientI
         </li>
     );
 }
-/*
-IngredientInConstructor.propTypes = {
-        name: PropTypes.string, 
-        price: PropTypes.number, 
-        image: PropTypes.string, 
-        idtd: PropTypes.string, 
-        index: PropTypes.number
-};*/
+
 
 
 export default IngredientInConstructor;

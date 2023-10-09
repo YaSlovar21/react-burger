@@ -11,28 +11,27 @@ import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../services/actions/w
 import { WS_AUTH_CONNECTION_CLOSED, WS_AUTH_CONNECTION_START } from '../services/actions/wsAuthActions';
 
 
-function OrderItemPage() {
+function OrderUserItemPage() {
     const { id } = useParams();
     console.log(id);
-    const orders = useSelector(store => store.ordersFeedAll.orders);
+    const orders = useSelector(store => store.ordersOfUser.orders);
     
     //Redux в данном спринте не трогаем
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch({
-            type: WS_CONNECTION_START,
-            url: 'wss://norma.nomoreparties.space/orders/all',
-            isPrivate: false
+            type: WS_AUTH_CONNECTION_START,
+            url: 'wss://norma.nomoreparties.space/orders',
+            isPrivate: true
         });
 
         return () => {
-            dispatch({type: WS_CONNECTION_CLOSED});
+            dispatch({type: WS_AUTH_CONNECTION_CLOSED});
         }
     }, [dispatch]);
 
- 
     const orderData = useMemo(() => orders?.orders.find((item: TOrder) => item._id === id), [orders]);
-    console.log(orders?.orders);
+    console.log(orderData);
     if (orderData) {
         return (
             <div className={styles.formpagecontent}>
@@ -46,4 +45,4 @@ function OrderItemPage() {
     }
 }
 
-export default OrderItemPage;
+export default OrderUserItemPage;
