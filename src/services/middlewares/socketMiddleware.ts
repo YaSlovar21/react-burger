@@ -1,8 +1,6 @@
 import {Middleware, MiddlewareAPI} from 'redux';
 import {AppDispatch, RootState, TApplicationActions} from '../types';
 import { getCookie } from "../../utils/utils";
-import { WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from '../actions/wsActions';
-import { WS_AUTH_CONNECTION_CLOSED, WS_AUTH_CONNECTION_ERROR, WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_SUCCESS, WS_AUTH_GET_MESSAGE } from '../actions/wsAuthActions';
 import { TWsActionsTypes } from '../types/data';
 
 
@@ -44,7 +42,7 @@ export const socketMiddleware = ({isPrivate} : {isPrivate: boolean}, wsTypeActio
 
                 // функция, которая вызывается при закрытии соединения
                 socket.onclose = event => {
-                    dispatch({ type: isPrivate ? WS_AUTH_CONNECTION_CLOSED : WS_AUTH_CONNECTION_CLOSED, payload: event });
+                    dispatch({ type: wsTypeActions.onClose, payload: event });
                     
                 };
     
