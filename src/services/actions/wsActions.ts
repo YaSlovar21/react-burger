@@ -1,4 +1,4 @@
-import { IMiddleTypeActions } from "../middlewares/socketMiddleware";
+
 import { TOrder } from "../types/data";
 
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';

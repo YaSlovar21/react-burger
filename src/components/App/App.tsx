@@ -38,8 +38,8 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  /*console.log(background);
-  console.log(location);*/
+  console.log(background);
+  //console.log(location);*/
 
   React.useEffect(() => {
     dispatch(getUserData());
@@ -73,7 +73,7 @@ function App() {
           <Route path={ROUTES.profileOrders} element={<ProtectedRouteWithAuth element={<ProfileOrders />} />} />
           {/* ингредиента или заказа */}
           <Route path={ROUTES.ingredient} element={<IngredientPage />} />
-          <Route path={ROUTES.profileOrderItem} element={<OrderItemPage />} />
+          <Route path={ROUTES.profileOrderItem} element={<ProtectedRouteWithAuth element={<OrderItemPage />} />} />
           <Route path={ROUTES.feedOrderItem} element={<OrderItemPage />} />
 
           <Route path='*' element={<PageNotFound404 />} />
@@ -84,11 +84,11 @@ function App() {
             <Modal onEventCloseInModal={handleModalClose}>
                 <IngredientDetails el={ingredientViewing}/> 
             </Modal>} />
-          <Route path={ROUTES.profileOrderItem} element={
+          <Route path={ROUTES.profileOrderItem} element={<ProtectedRouteWithAuth  element={
             <Modal onEventCloseInModal={handleModalClose}>
               <OrderItemDetails el={ingredientViewing} />
-            </Modal>
-          } />
+            </Modal>} /> }
+           />
           <Route path={ROUTES.feedOrderItem} element={
             <Modal onEventCloseInModal={handleModalClose}>
               <OrderItemDetails el={ingredientViewing} />

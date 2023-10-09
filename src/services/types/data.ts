@@ -1,3 +1,5 @@
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from "../actions/wsActions";
+import { WS_AUTH_CONNECTION_CLOSED, WS_AUTH_CONNECTION_ERROR, WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_SUCCESS, WS_AUTH_GET_MESSAGE } from "../actions/wsAuthActions";
 
 export type TIngredient = {
     _id: string;
@@ -35,3 +37,11 @@ export type TUser = {
     email: string;
     password: string;
 }
+export type TWsActionsTypes = {
+
+    wsInit: typeof WS_AUTH_CONNECTION_START | typeof WS_CONNECTION_START,
+    onOpen: typeof WS_AUTH_CONNECTION_SUCCESS | typeof WS_CONNECTION_SUCCESS,
+    onClose: typeof WS_AUTH_CONNECTION_CLOSED | typeof WS_CONNECTION_CLOSED,
+    onError: typeof WS_AUTH_CONNECTION_ERROR | typeof WS_CONNECTION_ERROR,
+    onMessage: typeof WS_AUTH_GET_MESSAGE | typeof WS_GET_MESSAGE;
+  }
