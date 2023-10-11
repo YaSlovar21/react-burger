@@ -1,0 +1,9 @@
+.formpagecontent {
+    margin: 120px auto 0 auto;
+    max-width: 640px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

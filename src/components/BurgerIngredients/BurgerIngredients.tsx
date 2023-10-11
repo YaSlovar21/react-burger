@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { useInView } from 'react-intersection-observer';
 
 import {
@@ -9,21 +9,16 @@ import {
 import styles from './BurgerIngredients.module.css';
 
 import Ingredient from '../Ingredient/Ingredient';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 import { SOME_INGR_VIEWING, SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 
-import { getIngregients } from '../../services/actions/get-ingredients';
-import { TIngredient } from '../../utils/ts-types';
+import { TIngredient } from '../../services/types/data';
 
 function BurgerIngredients() {
-    const ingredients = useSelector((store:any) => store.ingredients.items);
-    const dispatch:any = useDispatch();
+    const ingredients = useSelector(store => store.ingredients.items);
+    const dispatch = useDispatch();
     
-    React.useEffect(()=> {
-      dispatch(getIngregients());
-    }, [dispatch]);
+    
     
     const [current, setCurrent] = React.useState('bun');
 

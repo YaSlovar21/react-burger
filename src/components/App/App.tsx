@@ -14,7 +14,7 @@ import ResetPassword from '../../pages/ResetPassword';
 import Profile from '../../pages/Profile';
 import IngredientPage from '../../pages/IngredientPage';
 import { getUserData } from '../../services/actions/user';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { ROUTES } from '../../utils/constants';
 import ProtectedRouteWithAuth from '../HOC/ProtectedRouteWithAuth';
 import Modal from '../Modal/Modal';
@@ -22,6 +22,14 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { SOME_INGR_VIEWING_CLEAR } from '../../services/actions/modal-ingredient';
 import PageNotFound404 from '../../pages/PageNotFound404';
 import ProtectedRouteFromAuth from '../HOC/ProtectedRouteFromAuth';
+import OrderFeedPage from '../../pages/OrderFeedPage';
+import ProfileOrders from '../../pages/ProfileOrders';
+import OrderItemCard from '../OrderItemCard/OrderItemCard';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderItemDetails from '../OrderItemDetails/OrderItemDetails';
+import OrderItemPage from '../../pages/OrderItemPage';
+import { getIngregients } from '../../services/actions/get-ingredients';
+import OrderUserItemPage from '../../pages/OrderUserItemPage';
 
 
 function App() {
@@ -31,17 +39,20 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  /*console.log(background);
-  console.log(location);*/
+  console.log(background);
+  //console.log(location);*/
 
   React.useEffect(() => {
-    dispatch<any>(getUserData());
+    dispatch(getUserData());
   }, [dispatch]);
 
-
+  React.useEffect(()=> {
+    dispatch(getIngregients());
+  }, [dispatch]);
+  
   //const ingredientViewing = useSelector(store => store.modalIngredient.viewingIngredient);
   const ingredientViewing = location.state && location.state.el;
-   
+  console.log(ingredientViewing)
   function handleModalClose() {
       //dispatch({type: SOME_INGR_VIEWING_CLEAR});
       navigate(background.pathname, {replace: false});
@@ -57,11 +68,15 @@ function App() {
           <Route path={ROUTES.register} element={<ProtectedRouteFromAuth element={<Register />} />} />
           <Route path={ROUTES.forgotPassword} element={<ProtectedRouteFromAuth element={<ForgotPassword />} /> } />
           <Route path={ROUTES.resetPassword} element={<ProtectedRouteFromAuth element={<ResetPassword />} />} />
-
+          <Route path={ROUTES.feed} element={<OrderFeedPage />} />
           {/* пускаем только залогиненных */}
           <Route path={ROUTES.profile} element={<ProtectedRouteWithAuth element={<Profile />} />} />
-          {/* Ингредиент */}
+          <Route path={ROUTES.profileOrders} element={<ProtectedRouteWithAuth element={<ProfileOrders />} />} />
+          {/* ингредиента или заказа */}
           <Route path={ROUTES.ingredient} element={<IngredientPage />} />
+          <Route path={ROUTES.profileOrderItem} element={<ProtectedRouteWithAuth element={<OrderUserItemPage />} />} />
+          <Route path={ROUTES.feedOrderItem} element={<OrderItemPage />} />
+
           <Route path='*' element={<PageNotFound404 />} />
         </Routes>
      
@@ -70,6 +85,16 @@ function App() {
             <Modal onEventCloseInModal={handleModalClose}>
                 <IngredientDetails el={ingredientViewing}/> 
             </Modal>} />
+          <Route path={ROUTES.profileOrderItem} element={<ProtectedRouteWithAuth  element={
+            <Modal onEventCloseInModal={handleModalClose}>
+              <OrderItemDetails el={ingredientViewing} />
+            </Modal>} /> }
+           />
+          <Route path={ROUTES.feedOrderItem} element={
+            <Modal onEventCloseInModal={handleModalClose}>
+              <OrderItemDetails el={ingredientViewing} />
+            </Modal>
+          } />
         </Routes>)}
     </div>
   );

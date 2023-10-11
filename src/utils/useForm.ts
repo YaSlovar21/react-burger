@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 
 type TFormData = {
-    [key:string] : string
+    [key:string] : string 
 }
 
 export function useForm(initialData:TFormData) { 

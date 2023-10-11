@@ -1,5 +1,4 @@
 import React, { FC, PropsWithChildren, ReactElement } from 'react';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
 
 import styles from './Modal.module.css';
@@ -11,8 +10,6 @@ import {
 
 import { ESC_CODE } from '../../utils/constants';
 
-import OrderDetails from '../OrderDetails/OrderDetails';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
 const modalRoot = document.getElementById('react-modals') as HTMLDivElement;
@@ -47,10 +44,5 @@ const Modal:FC<PropsWithChildren<TModalProps>> = ({children, onEventCloseInModal
         , modalRoot
     )
 }
-/*
-Modal.propTypes = {
-    children: PropTypes.element.isRequired,
-    onEventCloseInModal:  PropTypes.func.isRequired,
-}*/
 
 export default Modal;

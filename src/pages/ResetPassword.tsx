@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '../utils/useForm';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../services/hooks';
 import { resetPasswordWithCode } from '../services/actions/user';
 import { ROUTES } from '../utils/constants';
 
@@ -24,7 +24,7 @@ function ResetPassword() {
 
     function handleSubmit(evt: FormEvent) {
         evt.preventDefault();
-        dispatch<any>(resetPasswordWithCode(form.values.password, form.values.token));
+        dispatch(resetPasswordWithCode(form.values.password, form.values.token));
         navigate(ROUTES.login);
     }
 

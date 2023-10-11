@@ -1,0 +1,29 @@
+.formpagecontent {
+   
+    display: flex;
+    align-items: flex-start;
+    max-width: 1280px;
+    margin: 120px auto 0;
+}
+
+.orders {
+    box-sizing: border-box;
+    padding-right: 10px;
+    flex-basis: 844px;
+    margin-right: 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 200px);
+    list-style-type: none;
+}
+
+.orders::-webkit-scrollbar {
+    width: 8px;
+    background: var(--interface-input, #2F2F37);
+}
+
+.orders::-webkit-scrollbar-thumb {
+    border: 3px solid var(--text-dark-grey-secondary-text, #8585AD);
+    background: var(--text-dark-grey-secondary-text, #8585AD);
+    width: 8px;
+}

@@ -24,7 +24,7 @@ function AppHeader() {
             <BurgerIcon type="secondary" />
             <span className='ml-2'>Конструктор</span>
           </NavLink>
-          <NavLink to='/test' className={({isActive}) => `pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${styles.navlist__item} ${isActive && styles.navlist__item_active}`}>
+          <NavLink to={ROUTES.feed} className={({isActive}) => `pl-5 pr-5 pb-4 pt-4 text text_type_main-default ${styles.navlist__item} ${isActive && styles.navlist__item_active}`}>
             <ListIcon type="secondary" />
             <span className='ml-2'>Лента заказов</span>
           </NavLink>

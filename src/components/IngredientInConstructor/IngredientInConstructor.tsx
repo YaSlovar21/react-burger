@@ -5,13 +5,13 @@ import {
     DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { useDrag, useDrop } from "react-dnd";
 import { DELETE_ITEM_FROM_CONSTRUCTOR, MOVE_INGREDIENTS } from "../../services/actions/constructor";
 
 import styles from './IngredientInConstructor.module.css';
 
-import { TIngredientInConstructor } from '../../utils/ts-types';
+import { TIngredientInConstructor } from '../../services/types/data';
 
 type TDndIngr = TIngredientInConstructor & {
     index: number;
@@ -71,7 +71,7 @@ function IngredientInConstructor({name, price, image, idtd, index}: TIngredientI
     })
     dragRef(dropRef(ref));
     return (
-        <li ref={ref}>
+        <li ref={ref} >
             <DragIcon type="primary" />
             <ConstructorElement
                 text={name}
@@ -83,14 +83,7 @@ function IngredientInConstructor({name, price, image, idtd, index}: TIngredientI
         </li>
     );
 }
-/*
-IngredientInConstructor.propTypes = {
-        name: PropTypes.string, 
-        price: PropTypes.number, 
-        image: PropTypes.string, 
-        idtd: PropTypes.string, 
-        index: PropTypes.number
-};*/
+
 
 
 export default IngredientInConstructor;

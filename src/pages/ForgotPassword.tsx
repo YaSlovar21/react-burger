@@ -3,7 +3,7 @@ import styles from './ForgotPassword.module.css';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {ChangeEvent, FormEvent} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../services/hooks';
 import { forgotPasswordByEmail } from '../services/actions/user';
 import { ROUTES } from '../utils/constants';
   
@@ -21,7 +21,7 @@ function ForgotPassword() {
     function handleSubmit(evt:FormEvent) {
         evt.preventDefault();
         //Redux в данном спринте не трогаем
-        dispatch<any>(forgotPasswordByEmail(valueEmail));
+        dispatch(forgotPasswordByEmail(valueEmail));
         navigate(ROUTES.resetPassword);
     }
 

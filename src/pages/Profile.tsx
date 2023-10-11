@@ -3,19 +3,19 @@ import styles from './Profile.module.css';
 import {
     Button, EmailInput, Input, PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import React, { FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { logout, updateUserAction } from '../services/actions/user';
 import { useForm } from '../utils/useForm';
-import { NavLink } from 'react-router-dom';
-import { ROUTES } from '../utils/constants';
+import ProfileNav from '../components/ProfileNav/ProfileNav';
   
 
 function Profile() {
-    const userName = useSelector((store:any) => store.user.name);
-    const userEmail = useSelector((store:any) => store.user.email);
+    const userName = useSelector((store) => store.user.name);
+    const userEmail = useSelector((store) => store.user.email);
     //Redux в данном спринте не трогаем
-    const dispatch:any = useDispatch();
+    const dispatch = useDispatch();
 
     const [isNameDisabled, setIsNameDisabled] = React.useState(true);
     const inputNameRef = React.useRef<HTMLInputElement>(null);
@@ -25,11 +25,11 @@ function Profile() {
         setTimeout(() => inputNameRef.current?.focus(), 0);
     }
 
-    const form = useForm({name: userName, email: userEmail, password: ''});
+    const form = useForm({name: userName ?? '', email: userEmail ?? '', password: ''});
     const isDataChanged = userName !== form.values.name || userEmail !== form.values.email || !!form.values.password;
 
     function handleResetForm() {
-        form.setValues({name: userName, email: userEmail, password: ''})
+        form.setValues({name: userName ?? '', email: userEmail ?? '', password: ''})
     }
 
     function handleUpdateUser(evt: FormEvent) {
@@ -41,20 +41,14 @@ function Profile() {
         })
     }
 
-    function handleLogout() {
-        dispatch(logout());
-    }
+
 
     return (
         <div className={styles.formpagecontent}> 
-        <div className={`mr-15 ${styles.formpagecontent__menu}`}>
-        <ul className={styles.navlist}>
-            <li className={styles.navlist__item}><NavLink to={ROUTES.profile} className={({isActive}) => `text text_type_main-medium ${styles.navlink} ${isActive && styles.active}`}>Профиль</NavLink></li>
-            <li className={styles.navlist__item}><NavLink to='/test' className={({isActive}) => `text text_type_main-medium ${styles.navlink} ${isActive && styles.active}`}>История заказов</NavLink></li>
-            <li className={`text text_type_main-medium text_color_inactive ${styles.navlist__item} ${styles.logout}`} onClick={handleLogout}>Выход</li>
-        </ul>
-        <p className="text text_type_main-default text_color_inactive mt-20">В этом разделе вы можете изменить свои персональные данные</p>
-        </div>
+       
+        {/* меню */}
+        <ProfileNav />
+    
         <form className={styles.form} onSubmit={handleUpdateUser}>
             <Input
                 type={'text'}

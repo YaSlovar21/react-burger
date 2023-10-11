@@ -11,3 +11,11 @@ export function setCookie(name:string, value:string) {
 export function deleteCookie() {
   localStorage.clear();
 }
+
+export function getStatus(type:string) {
+  if (type === 'done') {
+    return 'Выполнен'
+  } else {
+    return 'Готовиться'
+  }
+}

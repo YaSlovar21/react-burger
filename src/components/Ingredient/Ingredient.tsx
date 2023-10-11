@@ -1,5 +1,4 @@
 import React, { FC, useEffect,ReactElement  } from 'react';
-import PropTypes from 'prop-types';
 
 import { useDrag } from "react-dnd";
 
@@ -9,11 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from './Ingredient.module.css';
-import { burgerPropTypes } from '../../utils/prop-types';
-import {  useSelector } from 'react-redux';
+import {  useSelector } from '../../services/hooks';
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { TIngredient } from '../../utils/ts-types';
+import { TIngredient } from '../../services/types/data';
 
 interface IIngrProps {
     el: TIngredient;
@@ -34,10 +32,10 @@ const Ingredient: FC<IIngrProps> = ({el, onIngredientClick }) => {
         
     });
 
-    const ingrs: TIngredient[] = useSelector((store:any) => store.cart.ingrsInCart);
-    const bunInConstr: TIngredient = useSelector((store:any) => store.cart.bun);
+    const ingrs: TIngredient[] = useSelector((store) => store.cart.ingrsInCart);
+    const bunInConstr = useSelector((store) => store.cart.bun);
 
-    const ingredientsInConstructor: TIngredient[] = ingrs.concat(bunInConstr, bunInConstr);
+    const ingredientsInConstructor = [...[bunInConstr], ...ingrs, ...[bunInConstr]];
 
     const count = useMemo(() => ingredientsInConstructor.reduce((acc,item) => item?._id===el._id ? ++acc : acc, 0), [ingredientsInConstructor]);
 
@@ -53,10 +51,5 @@ const Ingredient: FC<IIngrProps> = ({el, onIngredientClick }) => {
         
     );
 };
-/*
-Ingredient.propTypes = {
-    el: burgerPropTypes.isRequired,
-    onIngredientClick: PropTypes.func.isRequired,
-};*/
 
 export default Ingredient;

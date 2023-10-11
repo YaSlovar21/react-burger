@@ -5,7 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { ChangeEvent, FormEvent } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { register } from '../services/actions/user';
   
 
@@ -34,7 +34,7 @@ function Register() {
 
     function handleSubmit(evt: FormEvent) {
         evt.preventDefault();
-        dispatch<any>(register(name, valueEmail, valuePassword));
+        dispatch(register(name, valueEmail, valuePassword));
     }
 
     return (
