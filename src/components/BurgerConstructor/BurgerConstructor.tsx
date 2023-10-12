@@ -81,7 +81,7 @@ function BurgerConstructor() {
     }
 
     return (
-        <div ref={dropTargetRef} className={`mt-25 pl-3 ${styles.constructor}`}>
+        <div ref={dropTargetRef} className={`mt-25 pl-3 ${styles.constructor}`} data-cy="cartContainer">
            {bun ? ( <ConstructorElement
                 type="top"
                 isLocked={true}
@@ -112,7 +112,7 @@ function BurgerConstructor() {
                     <span className='text text_type_digits-medium mr-2'>{totalPrice}</span>
                     <CurrencyIcon type="primary"/>
                 </div>
-                <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
+                <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick} data-cy="order-button">
                     Оформить заказ
                 </Button>
                 {orderNubmer && isOrderViewing && (<Modal onEventCloseInModal={handleModalClose}>
