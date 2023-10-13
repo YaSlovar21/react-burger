@@ -1,4 +1,9 @@
-# Getting Started with Create React App
+# Учебный проект React burger
+
+## Собрать и заказать космический бургер Вы можете по данной ссылке
+[https://react-burger.kupcov.com/](https://react-burger.kupcov.com/)
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
