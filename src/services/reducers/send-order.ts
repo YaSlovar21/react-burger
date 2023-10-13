@@ -11,7 +11,7 @@ type TSendOrderState = {
     isOrderViewing: boolean;
 }
 
-const initialState: TSendOrderState = {
+export const initialState: TSendOrderState = {
     number: undefined,
     isOrderViewing: false,
 }

@@ -32,7 +32,7 @@ const Modal:FC<PropsWithChildren<TModalProps>> = ({children, onEventCloseInModal
     }, []);
 
     return ReactDOM.createPortal(
-        <div className={`${styles.modalwrapper}`} data-cy="modalIngredient" >
+        <div className={`${styles.modalwrapper}`} data-cy="modal-all" >
             <ModalOverlay onOverlayClick={onEventCloseInModal}  />
             <div className={styles.modal}>
                 <button className={styles.closebutton} onClick={onEventCloseInModal}>

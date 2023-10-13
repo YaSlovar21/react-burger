@@ -20,7 +20,7 @@ type TWSState = {
   error?: string | undefined
 }
 
-const initialState:TWSState = {
+export const initialState:TWSState = {
   wsConnected: false,
   wsConnecting: false,
   orders: undefined,

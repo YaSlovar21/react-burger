@@ -9,7 +9,7 @@ type TModalIngredientState = {
   viewingIngredient: TIngredient | undefined;
 }
 
-const initialState: TModalIngredientState = {
+export const initialState: TModalIngredientState = {
   viewingIngredient: undefined,
 }
 

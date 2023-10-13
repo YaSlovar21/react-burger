@@ -6,7 +6,7 @@ import successLogo from '../../images/done.svg';
 
 function OrderDetails({orderNubmer}: {orderNubmer: number}) {
     return (
-        <div className={`p-30 ${styles.wrapper}`}>
+        <div className={`p-30 ${styles.wrapper} order-number`}>
          <h2 className={`text text_type_digits-large ${styles.zakaznumber}`}>{orderNubmer}</h2>
         <p className='text text_type_main-medium mt-8'>индентификатор заказа</p>
         <img className={`mt-15 mb-15 ${styles.successlogo}`} src={successLogo} alt='заказ принят' />
