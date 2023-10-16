@@ -1,3 +1,4 @@
+import { USER_EMAIL, USER_NAME } from "../../utils/test-constants";
 import { LOGIN_SUCCESS, LOGOUT_SUCCESS, REGISTER_USER_SUCCESS, RESET_PASSWORD_SUCCESS, SET_USER } from "../actions/user";
 import { userReducer, initialState } from "./user";
 
@@ -14,14 +15,14 @@ describe('user reducer', () => {
                 initialState,
                 {
                     type: LOGIN_SUCCESS,
-                    name: 'Slava',
-                    email: '12345@yandex.ru',
+                    name: USER_NAME,
+                    email: USER_EMAIL,
                 }
             )
         ).toEqual({
             ...initialState,
-            name: 'Slava',
-            email: '12345@yandex.ru',
+            name: USER_NAME,
+            email: USER_EMAIL,
             isLoggedIn: true,
         })
     });
@@ -32,14 +33,14 @@ describe('user reducer', () => {
                 initialState,
                 {
                     type: REGISTER_USER_SUCCESS,
-                    name: 'Slava',
-                    email: '12345@yandex.ru',
+                    name: USER_NAME,
+                    email: USER_EMAIL,
                 }
             )
         ).toEqual({
             ...initialState,
-            name: 'Slava',
-            email: '12345@yandex.ru',
+            name: USER_NAME,
+            email: USER_EMAIL,
             isLoggedIn: true,
         })
     });
@@ -50,14 +51,14 @@ describe('user reducer', () => {
                 initialState,
                 {
                     type: SET_USER,
-                    name: 'Slava',
-                    email: '12345@yandex.ru',
+                    name: USER_NAME,
+                    email: USER_EMAIL,
                 }
             )
         ).toEqual({
             ...initialState,
-            name: 'Slava',
-            email: '12345@yandex.ru',
+            name: USER_NAME,
+            email: USER_EMAIL,
             isLoggedIn: true,
         })
     });

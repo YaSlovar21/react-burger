@@ -3,23 +3,28 @@
 import { ceil } from 'cypress/types/lodash';
 import {BASE_URL, INGRS_URL, ORDER_URL} from '../../src/utils/constants'
 
+import {USER_EMAIL, USER_PASSWORD} from '../../src/utils/test-constants'
+
 describe('service is available and fixture response success', function() {
 
+    //-------------------------
+    //при использовании Алиасов вылетает ошибка "Не могу вызвать cy.get вне теста", возможно есть какая то оболочка, которая создаст область видимости для дальнейшего использования в тестах?
+    //------------------------
     const getModal = () => cy.get('[data-cy=modal-all]')
     const getIngredientContainer = () => cy.get('[data-cy=ingredientsContainer]')
     const getCartContainer = () => cy.get('[data-cy=cartContainer]')
     const getOrderButton = () => cy.get('[data-cy=order-button]');
 
     it('should be available on localhost:3000', function() {
-      cy.visit('http://localhost:3000');
-      cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients')
+      cy.visit('/');
+      cy.intercept('GET', `${BASE_URL}${INGRS_URL}`, { fixture: 'ingredients.json' }).as('getIngredients')
       cy.wait('@getIngredients').its('response.body')
           .should('have.property', 'success', true)
     });
 
     it('modal with ingregients open and close correctly', () => {
-        cy.visit('http://localhost:3000');
-        cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients')
+        cy.visit('/');
+        cy.intercept('GET', `${BASE_URL}${INGRS_URL}`, { fixture: 'ingredients.json' }).as('getIngredients')
 
         cy.get('[class^=Ingredient_ingredient]').first().click();
         getModal().should('be.visible').within(()=> {
@@ -31,8 +36,8 @@ describe('service is available and fixture response success', function() {
       });
     
     it('ingredient dragged and dropped to cart', () => {
-        cy.visit('http://localhost:3000');
-        cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients')
+        cy.visit('/');
+        cy.intercept('GET', `${BASE_URL}${INGRS_URL}`, { fixture: 'ingredients.json' }).as('getIngredients')
         
         //отпправляем в корзину булку и ингредиент
         getIngredientContainer().contains('Краторная булка N-200i').trigger('dragstart');
@@ -63,8 +68,8 @@ describe('service is available and fixture response success', function() {
 
         cy.intercept('POST', `${BASE_URL}${ORDER_URL}`, { fixture: 'order-response.json' }).as('getOrderData')
         //логинимся
-        cy.get('input').first().type('stanko.tsep@yandex.ru')
-        cy.get('input').eq(1).type('12345678')
+        cy.get('input').first().type(USER_EMAIL)
+        cy.get('input').eq(1).type(USER_PASSWORD)
         cy.get('.login-button').click()
 
         getOrderButton().click()
