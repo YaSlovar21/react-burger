@@ -2,6 +2,7 @@
 import {
     GET_ORDER_NUMBER_SUCCESS,
     UPDATE_ORDER_NUMBER,
+    GET_ORDER_NUMBER_REQUEST,
     SET_ORDER_MODAL_POS,
     TOrderActions,
 } from "../actions/send-order";
@@ -9,11 +10,13 @@ import {
 type TSendOrderState = {
     number: number | undefined;
     isOrderViewing: boolean;
+    isOrderCooking: boolean;
 }
 
 export const initialState: TSendOrderState = {
     number: undefined,
     isOrderViewing: false,
+    isOrderCooking: false,
 }
     
 export const sendOrderReducer = (state = initialState, action: TOrderActions):TSendOrderState => {
@@ -24,10 +27,17 @@ export const sendOrderReducer = (state = initialState, action: TOrderActions):TS
                 isOrderViewing: action.pos
             }
         }
+        case GET_ORDER_NUMBER_REQUEST: {
+            return {
+                ...state,
+                isOrderCooking: true
+            }
+        }
         case GET_ORDER_NUMBER_SUCCESS: {
             return {
                 ...state,
-                number: action.orderNumber
+                number: action.orderNumber,
+                isOrderCooking: false
             };
         }
         case UPDATE_ORDER_NUMBER: {

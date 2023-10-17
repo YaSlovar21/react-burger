@@ -31,6 +31,7 @@ function BurgerConstructor() {
 
     const orderNubmer = useSelector(store  => store.order.number);
     const isOrderViewing = useSelector(store  => store.order.isOrderViewing);
+    const isOrderCooking = useSelector(store => store.order.isOrderCooking)
     const bun = useSelector(store  => store.cart.bun);
     const ingredients = useSelector(store  => store.cart.ingrsInCart);
     
@@ -112,8 +113,8 @@ function BurgerConstructor() {
                     <span className='text text_type_digits-medium mr-2' data-cy="total-price">{totalPrice}</span>
                     <CurrencyIcon type="primary"/>
                 </div>
-                <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick} data-cy="order-button">
-                    Оформить заказ
+                <Button htmlType="submit" disabled={isOrderCooking} type="primary" size="large" onClick={handleOrderButtonClick} data-cy="order-button">
+                    {isOrderCooking? 'Готовим бургер...' : 'Оформить заказ'}
                 </Button>
                 {orderNubmer && isOrderViewing && (<Modal onEventCloseInModal={handleModalClose}>
                     <OrderDetails orderNubmer={orderNubmer} />

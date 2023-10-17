@@ -18,6 +18,10 @@ export interface IGetOrderNumberFailedAction {
     readonly type: typeof GET_ORDER_NUMBER_ERROR
 };
 
+export interface IGetOrderNumberRequestAction {
+    readonly type: typeof GET_ORDER_NUMBER_REQUEST
+};
+
 export interface IGetOrderNumberSuccessAction {
     readonly type: typeof GET_ORDER_NUMBER_SUCCESS;
     readonly orderNumber: number
@@ -61,4 +65,5 @@ export type TOrderActions = IGetOrderNumberAction
     | IGetOrderNumberFailedAction
     | IGetOrderNumberSuccessAction
     | IUpdateOrderNumberSuccessAction
-    | ISetOrderModalPosition;
+    | ISetOrderModalPosition
+    | IGetOrderNumberRequestAction;
