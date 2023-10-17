@@ -31,6 +31,7 @@ function BurgerConstructor() {
 
     const orderNubmer = useSelector(store  => store.order.number);
     const isOrderViewing = useSelector(store  => store.order.isOrderViewing);
+    const isOrderCooking = useSelector(store => store.order.isOrderCooking)
     const bun = useSelector(store  => store.cart.bun);
     const ingredients = useSelector(store  => store.cart.ingrsInCart);
     
@@ -47,7 +48,7 @@ function BurgerConstructor() {
     }
 
     //ловим ингредиент и добавляем его в корзину со спец id
-    const [{isOver, itemType},dropTargetRef] =useDrop({
+    const [{isOver, itemType},dropTargetRef] = useDrop({
         accept: 'ingr',
         drop(item: TIngredientInConstructor) {
             dispatch({
@@ -81,7 +82,7 @@ function BurgerConstructor() {
     }
 
     return (
-        <div ref={dropTargetRef} className={`mt-25 pl-3 ${styles.constructor}`}>
+        <div ref={dropTargetRef} className={`mt-25 pl-3 ${styles.constructor}`} data-cy="cartContainer">
            {bun ? ( <ConstructorElement
                 type="top"
                 isLocked={true}
@@ -109,11 +110,11 @@ function BurgerConstructor() {
  
             <div className={`pt-10 ${styles.total}`}>
                 <div className={`mr-10 ${styles.price}`}>
-                    <span className='text text_type_digits-medium mr-2'>{totalPrice}</span>
+                    <span className='text text_type_digits-medium mr-2' data-cy="total-price">{totalPrice}</span>
                     <CurrencyIcon type="primary"/>
                 </div>
-                <Button htmlType="submit" type="primary" size="large" onClick={handleOrderButtonClick}>
-                    Оформить заказ
+                <Button htmlType="submit" disabled={isOrderCooking} type="primary" size="large" onClick={handleOrderButtonClick} data-cy="order-button">
+                    {isOrderCooking? 'Готовим бургер...' : 'Оформить заказ'}
                 </Button>
                 {orderNubmer && isOrderViewing && (<Modal onEventCloseInModal={handleModalClose}>
                     <OrderDetails orderNubmer={orderNubmer} />

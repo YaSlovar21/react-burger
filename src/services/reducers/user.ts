@@ -14,7 +14,7 @@ type TUserState = {
   isPasswordReseted: boolean;
 }
 
-const initialState:TUserState = {
+export const initialState:TUserState = {
   name: null,
   email: null,
   isLoggedIn: false,

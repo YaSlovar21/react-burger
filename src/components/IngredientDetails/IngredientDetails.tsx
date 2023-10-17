@@ -5,7 +5,7 @@ import { TIngredient } from '../../services/types/data';
 
 function IngredientDetails({el, extraClass}: {el: TIngredient, extraClass?: string}) {
     return (
-        el && <div className={`p-10 ${styles.wrapper} ${extraClass && styles.ingredient_place_page}`}>
+        el && <div className={`p-10 ${styles.wrapper} ${extraClass && styles.ingredient_place_page} ingredients-details`}>
             <h2 className={`text text text_type_main-large mt-4 ${!extraClass && styles.detailstitle}`} >Детали заказа</h2>
             <img className={styles.image} src={el.image_large} alt={el.name} />
             <p className='text text_type_main-medium'>{el.name}</p>

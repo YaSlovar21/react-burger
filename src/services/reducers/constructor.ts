@@ -5,7 +5,7 @@ import {
   MOVE_INGREDIENTS,
   TConstructorActions,
 } from "../actions/constructor";
-import { TIngredient, TIngredientInConstructor } from "../types/data";
+import {  TIngredientInConstructor } from "../types/data";
 
 function removeDraggedElSplice(array:TIngredientInConstructor[], action:IConsrtuctorMoveItems) {
   let prevArray = array.slice();
@@ -20,7 +20,7 @@ type TConstructorState = {
   ingrsInCart: TIngredientInConstructor[]
 }
 
-const initialState:TConstructorState = {
+export const initialState:TConstructorState = {
   bun: undefined,
   ingrsInCart: [],
 };

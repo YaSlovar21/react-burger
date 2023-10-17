@@ -5,7 +5,7 @@ type TIngreientsState = {
     items: TIngredient[]
 }
 
-const initialState:TIngreientsState = {
+export const initialState:TIngreientsState = {
     items: [],
 }
 

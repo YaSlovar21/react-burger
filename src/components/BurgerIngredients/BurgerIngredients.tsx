@@ -68,7 +68,7 @@ function BurgerIngredients() {
                 Начинки
                 </Tab>
             </div>
-            <div className={styles.listwrapper}>
+            <div className={styles.listwrapper} data-cy="ingredientsContainer">
                 <h2 className='text text_type_main-medium mb-6'>Булки</h2>
                 <ul ref={refBuns} className={styles.ingredients__list}>
                     {buns

@@ -30,7 +30,7 @@ function Login() {
     return (
         <div className={styles.formpagecontent}>
             <h1 className="text text_type_main-medium">Вход</h1>
-            <form className={styles.formpagecontent__form} onSubmit={handleSubmit}>
+            <form className={styles.formpagecontent__form} onSubmit={handleSubmit} id="#loginForm">
                 <EmailInput
                     onChange={onChangeEmail}
                     value={valueEmail}
@@ -44,7 +44,7 @@ function Login() {
                     name={'password'}
                     extraClass="mt-6"
                 />
-                <Button extraClass="mt-6" htmlType="submit" type="primary" size="medium">Войти</Button>
+                <Button extraClass="mt-6 login-button" htmlType="submit" type="primary" size="medium">Войти</Button>
             </form>
             <div className="text text_type_main-default text_color_inactive mt-20">Вы — новый пользователь? <Link to="/register"  className={styles.accent}>Зарегистрироваться</Link></div>
             <div className="text text_type_main-default text_color_inactive mt-4">Забыли пароль? <Link to="/forgot-password"  className={styles.accent}>Восстановить пароль</Link></div>
